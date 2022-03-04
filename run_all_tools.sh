@@ -114,11 +114,11 @@ fi
 export AWS_REGION=us-west-1
 
 # Verify Azure access for plan
-az account list > /dev/null
-if [ $? -ne 0 ]; then
-  echo "To run this script, you'll need working Azure credentials (for use with terraform plan). Make sure you use 'az login'."
-  exit 1
-fi
+# az account list > /dev/null
+# if [ $? -ne 0 ]; then
+#   echo "To run this script, you'll need working Azure credentials (for use with terraform plan). Make sure you use 'az login'."
+#   exit 1
+# fi
 
 # Generate all plan files
 echo Generating plan files, where they do not exist yet
