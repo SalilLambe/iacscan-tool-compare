@@ -1,0 +1,164 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.3.2
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 575
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 4
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: /src/main.tf:50
+
+		049: 
+		050: resource "aws_iam_role" "test_role" {
+		051:   name = "test_role"
+
+
+	[2]: /src/main.tf:71
+
+		070: 
+		071: resource "aws_iam_instance_profile" "test_profile" {
+		072:   name = "test_profile"
+
+
+	[3]: /src/main.tf:98
+
+		097: 
+		098: resource "aws_instance" "pub_ins" {
+		099:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+	[4]: /src/main.tf:106
+
+		105: 
+		106: resource "aws_instance" "priv_ins" {
+		107:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+EC2 Not EBS Optimized, Severity: INFO, Results: 2
+Description: It's considered a best practice for an EC2 instance to use an EBS optimized instance. This provides the best performance for your EBS volumes by minimizing contention between Amazon EBS I/O and other traffic from your instance
+Platform: Terraform
+
+	[1]: /src/main.tf:98
+
+		097: 
+		098: resource "aws_instance" "pub_ins" {
+		099:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+	[2]: /src/main.tf:106
+
+		105: 
+		106: resource "aws_instance" "priv_ins" {
+		107:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+EC2 Instance Monitoring Disabled, Severity: INFO, Results: 2
+Description: EC2 Instance should have detailed monitoring enabled. With detailed monitoring enabled data is available in 1-minute periods
+Platform: Terraform
+
+	[1]: /src/main.tf:98
+
+		097: 
+		098: resource "aws_instance" "pub_ins" {
+		099:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+	[2]: /src/main.tf:106
+
+		105: 
+		106: resource "aws_instance" "priv_ins" {
+		107:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+Public and Private EC2 Share Role, Severity: MEDIUM, Results: 1
+Description: Public and private EC2 istances should not share the same role.
+Platform: Terraform
+
+	[1]: /src/main.tf:102
+
+		101:   subnet_id = module.vpc.public_subnets[0]
+		102:   iam_instance_profile = aws_iam_instance_profile.test_profile.name
+		103: 
+
+
+Instance With No VPC, Severity: MEDIUM, Results: 2
+Description: Instance should be configured in VPC (Virtual Private Cloud)
+Platform: Terraform
+
+	[1]: /src/main.tf:98
+
+		097: 
+		098: resource "aws_instance" "pub_ins" {
+		099:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+	[2]: /src/main.tf:106
+
+		105: 
+		106: resource "aws_instance" "priv_ins" {
+		107:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+IAM Policy Grants Full Permissions, Severity: MEDIUM, Results: 1
+Description: IAM policies allow all ('*') in a statement action
+Platform: Terraform
+
+	[1]: /src/main.tf:90
+
+		089:       "Effect": "Allow",
+		090:       "Resource": "*"
+		091:     }
+
+
+EC2 Instance Has Public IP, Severity: HIGH, Results: 2
+Description: EC2 Instance should not have a public IP address.
+Platform: Terraform
+
+	[1]: /src/main.tf:98
+
+		097: 
+		098: resource "aws_instance" "pub_ins" {
+		099:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+	[2]: /src/main.tf:106
+
+		105: 
+		106: resource "aws_instance" "priv_ins" {
+		107:   ami           = "${data.aws_ami.ubuntu.id}"
+
+
+
+Results Summary:
+HIGH: 2
+MEDIUM: 4
+LOW: 0
+INFO: 8
+TOTAL: 14
+
+Scan duration: 4.78881555s

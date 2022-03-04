@@ -1,0 +1,78 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.3.2
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 575
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 1
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_iam_role" "role" {
+		006:   name = "role"
+
+
+IAM Role Policy passRole Allows All, Severity: MEDIUM, Results: 1
+Description: Using the iam:passrole action with wildcards (*) in the resource can be overly permissive because it allows iam:passrole permissions on multiple resources
+Platform: Terraform
+
+	[1]: /src/main.tf:35
+
+		034:         "Action": [
+		035:           "iam:passrole"
+		036:         ],
+
+
+IAM Policy Grants Full Permissions, Severity: MEDIUM, Results: 2
+Description: IAM policies allow all ('*') in a statement action
+Platform: Terraform
+
+	[1]: /src/main.tf:38
+
+		037:         "Effect": "Allow",
+		038:         "Resource": "*"
+		039:       }
+
+
+	[2]: /src/main.tf:58
+
+		057:         "Effect": "Allow",
+		058:         "Resource": "*"
+		059:       }
+
+
+
+Results Summary:
+HIGH: 0
+MEDIUM: 3
+LOW: 0
+INFO: 1
+TOTAL: 4
+
+Scan duration: 4.727074023s

@@ -1,0 +1,59 @@
+Failed to run the process ...
+{
+  "meta": {
+    "isPrivate": true,
+    "isLicensesEnabled": false,
+    "ignoreSettings": null,
+    "org": "yi2020",
+    "projectId": "",
+    "policy": ""
+  },
+  "filesystemPolicy": false,
+  "vulnerabilities": [],
+  "dependencyCount": 0,
+  "licensesPolicy": null,
+  "ignoreSettings": null,
+  "targetFile": "main.tf",
+  "projectName": "project",
+  "org": "yi2020",
+  "policy": "",
+  "isPrivate": true,
+  "targetFilePath": "/project/main.tf",
+  "packageManager": "terraformconfig",
+  "path": "/project",
+  "projectType": "terraformconfig",
+  "ok": false,
+  "infrastructureAsCodeIssues": [
+    {
+      "severity": "low",
+      "resolve": "Set `settings.name` attribute to `containerInsights`, and `settings.value` to `enabled`",
+      "id": "SNYK-CC-TF-128",
+      "impact": "Performance log events will not be collected and displayed in CloudWatch",
+      "msg": "resource.aws_ecs_cluster[foo].setting",
+      "remediation": {
+        "cloudformation": "Set `Properties.ClusterSettings.Name` attribute to `containerInsights`, and `Properties.ClusterSettings.Value` to `enabled`",
+        "terraform": "Set `settings.name` attribute to `containerInsights`, and `settings.value` to `enabled`"
+      },
+      "subType": "ECS",
+      "issue": "ECS ContainerInsights will not be enabled on the cluster",
+      "publicId": "SNYK-CC-TF-128",
+      "title": "ECS ContainerInsights disabled",
+      "references": [
+        "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html"
+      ],
+      "isIgnored": false,
+      "iacDescription": {
+        "issue": "ECS ContainerInsights will not be enabled on the cluster",
+        "impact": "Performance log events will not be collected and displayed in CloudWatch",
+        "resolve": "Set `settings.name` attribute to `containerInsights`, and `settings.value` to `enabled`"
+      },
+      "lineNumber": 1,
+      "documentation": "https://snyk.io/security-rules/SNYK-CC-TF-128",
+      "path": [
+        "resource",
+        "aws_ecs_cluster[foo]",
+        "setting"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.3.2
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 575
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 1
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_redshift_cluster" "default" {
+		006:   cluster_identifier = "tf-redshift-cluster"
+
+
+Redshift Cluster Without VPC, Severity: MEDIUM, Results: 2
+Description: Redshift Cluster should be configured in VPC (Virtual Private Cloud)
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_redshift_cluster" "default" {
+		006:   cluster_identifier = "tf-redshift-cluster"
+
+
+	[2]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_redshift_cluster" "default" {
+		006:   cluster_identifier = "tf-redshift-cluster"
+
+
+Redshift Cluster Logging Disabled, Severity: MEDIUM, Results: 1
+Description: Make sure Logging is enabled for Redshift Cluster
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_redshift_cluster" "default" {
+		006:   cluster_identifier = "tf-redshift-cluster"
+
+
+Redshift Publicly Accessible, Severity: HIGH, Results: 1
+Description: Check if 'publicly_accessible' field is true or undefined (default is true)
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_redshift_cluster" "default" {
+		006:   cluster_identifier = "tf-redshift-cluster"
+
+
+Redshift Not Encrypted, Severity: HIGH, Results: 1
+Description: Check if 'encrypted' field is false or undefined (default is false)
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_redshift_cluster" "default" {
+		006:   cluster_identifier = "tf-redshift-cluster"
+
+
+Passwords And Secrets In Infrastructure Code, Severity: HIGH, Results: 1
+Description: Query to find passwords and secrets in infrastructure code.
+Platform: Common
+
+	[1]: /src/main.tf:9
+
+		008:   master_username    = "foo"
+		009:   master_password    = "Mustbe8characters"
+		010:   node_type          = "dc1.large"
+
+
+
+Results Summary:
+HIGH: 3
+MEDIUM: 3
+LOW: 0
+INFO: 1
+TOTAL: 7
+
+Scan duration: 4.726015477s

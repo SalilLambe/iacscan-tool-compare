@@ -1,0 +1,118 @@
+
+  Result 1
+
+  [aws-ec2-enforce-http-token-imds][[0m[31mHIGH[39m[0m] Resource 'aws_instance.ec2' is missing `metadata_options` block - it is required with `http_tokens` set to `required` to make Instance Metadata Service more secure.
+  /src/main.tf:61-67
+
+
+      58 |   owners = ["099720109477"] # Canonical
+      59 | }
+      60 | 
+      61 | resource "aws_instance" "ec2" {
+      62 |   ami = data.aws_ami.ubuntu.id
+      63 |   instance_type = "t2.micro"
+      64 |   subnet_id     = aws_subnet.subnet.id
+      65 |   vpc_security_group_ids  = [aws_security_group.default.id]
+      66 | 
+      67 | }
+      68 | 
+
+  Legacy ID:  AWS079
+  Impact:     Instance metadata service can be interacted with freely
+  Resolution: Enable HTTP token requirement for IMDS
+
+  More Info:
+  - https://tfsec.dev/docs/aws/ec2/enforce-http-token-imds#aws/ec2 
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options 
+  - https://aws.amazon.com/blogs/security/defense-in-depth-open-firewalls-reverse-proxies-ssrf-vulnerabilities-ec2-instance-metadata-service 
+
+  Result 2
+
+  [aws-vpc-add-decription-to-security-group][[0m[97mLOW[39m[0m] Resource 'aws_security_group.default' should include a description for auditing purposes.
+  /src/main.tf:15-36
+
+
+      12 | 
+      13 | }
+      14 | 
+      15 | resource "aws_security_group" "default" {
+      16 |   name        = "examplerulename"
+      17 |   vpc_id      = aws_vpc.vpc.id
+      18 | 
+      19 |   ingress {
+      20 |     from_port   = 443
+      21 |     to_port     = 443
+      22 |     protocol    = "tcp"
+      23 |     cidr_blocks = ["10.0.0.0/24"]
+      24 |   }
+      25 | 
+      26 |   egress {
+      27 |     from_port   = 0
+      28 |     to_port     = 0
+      29 |     protocol    = "-1"
+      30 |     cidr_blocks = ["0.0.0.0/0"]
+      31 |   }
+      32 | 
+      33 |   tags = {
+      34 |     Name = "example_rule_with_descriptions"
+      35 |   }
+      36 | }
+      37 | 
+      38 | resource "aws_subnet" "subnet" {
+      39 |   vpc_id     = aws_vpc.vpc.id
+
+  Legacy ID:  AWS018
+  Impact:     Descriptions provide context for the firewall rule reasons
+  Resolution: Add descriptions for all security groups and rules
+
+  More Info:
+  - https://tfsec.dev/docs/aws/vpc/add-decription-to-security-group#aws/vpc 
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group 
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule 
+  - https://www.cloudconformity.com/knowledge-base/aws/EC2/security-group-rules-description.html 
+
+  Result 3
+
+  [aws-vpc-no-public-egress-sg][[0m[1m[31mCRITICAL[39m[0m[39m[0m] Resource 'aws_security_group.default' defines a fully open egress security group.
+  /src/main.tf:30
+
+
+      27 |     from_port   = 0
+      28 |     to_port     = 0
+      29 |     protocol    = "-1"
+      30 |     cidr_blocks = ["0.0.0.0/0"]    list: ["0.0.0.0/0"]
+      31 |   }
+      32 | 
+      33 |   tags = {
+
+  Legacy ID:  AWS009
+  Impact:     The port is exposed for egressing data to the internet
+  Resolution: Set a more restrictive cidr range
+
+  More Info:
+  - https://tfsec.dev/docs/aws/vpc/no-public-egress-sg#aws/vpc 
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group 
+
+  times
+  ------------------------------------------
+  disk i/o             58.471126ms
+  parsing HCL          610.042µs
+  evaluating values    4.148709ms
+  running checks       32.518417ms
+
+  counts
+  ------------------------------------------
+  files loaded         1
+  blocks               7
+  modules              0
+
+  results
+  ------------------------------------------
+  critical             1
+  high                 1
+  medium               0
+  low                  1
+  ignored              0
+
+  3 potential problems detected.
+
