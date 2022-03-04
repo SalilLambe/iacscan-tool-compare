@@ -1,5 +1,13 @@
 # Test case: Resource (ec2) use default sg (automatically created) in a newly created VPC
 # Expected: alert on the use of default sg
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.3.0"
+    }
+  }
+}
 
 provider "aws" {
   region = "eu-west-2"

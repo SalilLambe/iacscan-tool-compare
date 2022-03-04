@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.3.0"
+    }
+  }
+}
+
 locals {
   region = "us-east-1"
   cidr_block = "172.16.0.0/16"
