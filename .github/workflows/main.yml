@@ -20,6 +20,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run script file
       run: |
-         pwd
-         sudo ./run_all_tools.sh
+         pwd 
+         chmod +x run_all_tools.sh
+         ./run_all_tools.sh
       shell: bash
