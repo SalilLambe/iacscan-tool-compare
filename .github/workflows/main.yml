@@ -20,5 +20,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run script file
       run: |
+         pwd
          run_all_tools.sh
       shell: bash
