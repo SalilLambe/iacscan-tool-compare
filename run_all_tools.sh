@@ -58,24 +58,24 @@ function run_terrascan {
 }
 
 # Snyk
-function run_snyk {
-  echo Now running Snyk on all cases
+# function run_snyk {
+#   echo Now running Snyk on all cases
 
-  if [ -z "$SNYK_TOKEN" ]; then
-    echo "To run this script, you'll need to provide the SNYK_TOKEN environment variable."
-    exit 1
-  fi
+#   if [ -z "$SNYK_TOKEN" ]; then
+#     echo "To run this script, you'll need to provide the SNYK_TOKEN environment variable."
+#     exit 1
+#   fi
 
-  docker pull snyk/snyk-cli:docker
-  docker run -t -v empty:/project -e SNYK_TOKEN snyk/snyk-cli:docker --version | tail -n 1 >version_snyk.txt
-  find . -name "main.tf" -exec dirname {} \; | grep -v "\.terraform" | while read -r test_case; do
-    echo $test_case
-    ORG_PATH=$PWD
-    cd $test_case
-    if [ ! -f snyk_results.txt ]; then docker run --rm -v "$(pwd):/project" -e SNYK_TOKEN snyk/snyk-cli:docker iac test /project | sed "s~$ORG_PATH~tool-compare~" >snyk_results.txt; fi
-    cd $ORG_PATH
-  done
-}
+#   docker pull snyk/snyk-cli:docker
+#   docker run -t -v empty:/project -e SNYK_TOKEN snyk/snyk-cli:docker --version | tail -n 1 >version_snyk.txt
+#   find . -name "main.tf" -exec dirname {} \; | grep -v "\.terraform" | while read -r test_case; do
+#     echo $test_case
+#     ORG_PATH=$PWD
+#     cd $test_case
+#     if [ ! -f snyk_results.txt ]; then docker run --rm -v "$(pwd):/project" -e SNYK_TOKEN snyk/snyk-cli:docker iac test /project | sed "s~$ORG_PATH~tool-compare~" >snyk_results.txt; fi
+#     cd $ORG_PATH
+#   done
+# }
 
 # Cloudrail
 function run_cloudrail {
