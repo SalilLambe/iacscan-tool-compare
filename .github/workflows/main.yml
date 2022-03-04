@@ -20,5 +20,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run script file
       run: |
-         run_all_tools.sh
+         chmod +x run_all_tools.sh
+         ./run_all_tools.sh
+      env:
+       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       shell: bash
