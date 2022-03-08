@@ -37,6 +37,6 @@ jobs:
     - run: python generate_readme_tables.py
 
     - uses: mikeal/publish-to-github-action@master
-    env:
-      GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-      BRANCH_NAME: '' #optional defaults to master
+      env:
+       GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+       BRANCH_NAME: '' #optional defaults to master
