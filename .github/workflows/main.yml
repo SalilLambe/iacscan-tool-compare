@@ -32,11 +32,10 @@ jobs:
     - uses: actions/setup-python@v2
     - name: Install Python | Run Py to update the ReadMe
       with:
-        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - run: python generate_readme_tables.py
 
     - uses: mikeal/publish-to-github-action@master
       env:
        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-       BRANCH_NAME: '' #optional defaults to master
