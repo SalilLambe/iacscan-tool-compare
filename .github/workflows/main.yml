@@ -29,9 +29,16 @@ jobs:
        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       shell: bash
       
-    - uses: actions/setup-python@v2
-    - name: Install Python | Run Py to update the ReadMe
+    - name: Install Python
+      uses: actions/setup-python@v2 
       with:
         python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-    - run: python generate_readme_tables.py
+        
+    - name: Run Py to update the ReadMe    
+      run: python generate_readme_tables.py
+      
+    - name: Update the files with result  
+      uses: mikeal/publish-to-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
