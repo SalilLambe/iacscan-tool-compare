@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branch es: [ main ]
+    branches: [ main ]
   pull_request:
-    branc hes: [ main ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,19 +29,14 @@ jobs:
        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       shell: bash
       
-<<<<<<< HEAD
-    - uses: actions/setup-python@v2
-    - name: Install Python, Run Py to update the ReadMe
-=======
     - name: Install Python
       uses: actions/setup-python@v2 
->>>>>>> 8b18912983ef517c8f440b586510e226c6a2b6ab
       with:
         python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
         
     - name: Run Py to update the ReadMe    
-      run: python generate_readme_tables.py
+      run: python generate_readme_tables.py > README.md
       
     - name: Update the files with result  
       uses: mikeal/publish-to-github-action@master
