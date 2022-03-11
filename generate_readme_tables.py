@@ -115,7 +115,7 @@ if __name__ == "__main__":
         "categories": [
             {"name": "Terraform - AWS", "path": "test-cases/terraform/aws"},
             # {"name": "Terraform - Azure", "path": "test-cases/terraform/azure"},
-            {"name": "Terraform - Advanced Language Expressions", "path": "test-cases/terraform/hcl_language_complexity"}
+              {"name": "Terraform - Advanced Language Expressions", "path": "test-cases/terraform/hcl_language_complexity"}
         ]
     }
 
