@@ -1,0 +1,111 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.3.2
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 575
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 2
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_s3_bucket" "cloudrail" {
+		006:   bucket = "cloudrail-non-encrypted-czx7zxchs"
+
+
+	[2]: /src/main.tf:18
+
+		017: 
+		018: resource "aws_s3_bucket_object" "object" {
+		019:   bucket  = aws_s3_bucket.cloudrail.id
+
+
+S3 Bucket With Ignore Public ACL, Severity: LOW, Results: 1
+Description: S3 bucket with ignore public ACL
+Platform: Terraform
+
+	[1]: /src/main.tf:14
+
+		013:   block_public_policy     = true
+		014:   ignore_public_acls      = true
+		015:   restrict_public_buckets = true
+
+
+S3 Bucket Logging Disabled, Severity: LOW, Results: 1
+Description: S3 bucket without logging
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_s3_bucket" "cloudrail" {
+		006:   bucket = "cloudrail-non-encrypted-czx7zxchs"
+
+
+S3 Bucket Without Versioning, Severity: MEDIUM, Results: 1
+Description: S3 bucket without versioning
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_s3_bucket" "cloudrail" {
+		006:   bucket = "cloudrail-non-encrypted-czx7zxchs"
+
+
+S3 Bucket Without Server-side-encryption, Severity: HIGH, Results: 1
+Description: S3 bucket should have encryption defined
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_s3_bucket" "cloudrail" {
+		006:   bucket = "cloudrail-non-encrypted-czx7zxchs"
+
+
+S3 Bucket Object Not Encrypted, Severity: HIGH, Results: 1
+Description: S3 Bucket Object should have server-side encryption enabled
+Platform: Terraform
+
+	[1]: /src/main.tf:18
+
+		017: 
+		018: resource "aws_s3_bucket_object" "object" {
+		019:   bucket  = aws_s3_bucket.cloudrail.id
+
+
+
+Results Summary:
+HIGH: 2
+MEDIUM: 1
+LOW: 2
+INFO: 2
+TOTAL: 7
+
+Scan duration: 4.694938851s

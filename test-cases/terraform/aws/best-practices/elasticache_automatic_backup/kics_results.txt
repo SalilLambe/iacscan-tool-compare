@@ -1,0 +1,92 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.3.2
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 575
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 2
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: /src/main.tf:1
+
+		001: resource "aws_elasticache_cluster" "default" {
+		002:   cluster_id           = "cluster"
+		003:   engine               = "redis"
+
+
+	[2]: /src/main.tf:9
+
+		008: 
+		009: resource "aws_elasticache_cluster" "disabled" {
+		010:   cluster_id           = "cluster"
+
+
+ElastiCache Redis Cluster Without Backup, Severity: MEDIUM, Results: 2
+Description: ElastiCache Redis cluster should have 'snapshot_retention_limit' higher than 0
+Platform: Terraform
+
+	[1]: /src/main.tf:1
+
+		001: resource "aws_elasticache_cluster" "default" {
+		002:   cluster_id           = "cluster"
+		003:   engine               = "redis"
+
+
+	[2]: /src/main.tf:16
+
+		015: 
+		016:   snapshot_retention_limit = 0
+		017: }
+
+
+Memcached Disabled, Severity: HIGH, Results: 2
+Description: Check if the Memcached is disabled on the ElastiCache
+Platform: Terraform
+
+	[1]: /src/main.tf:11
+
+		010:   cluster_id           = "cluster"
+		011:   engine               = "redis"
+		012:   node_type            = "cache.m5.large"
+
+
+	[2]: /src/main.tf:3
+
+		002:   cluster_id           = "cluster"
+		003:   engine               = "redis"
+		004:   node_type            = "cache.m5.large"
+
+
+
+Results Summary:
+HIGH: 2
+MEDIUM: 2
+LOW: 0
+INFO: 2
+TOTAL: 6
+
+Scan duration: 4.888592068s

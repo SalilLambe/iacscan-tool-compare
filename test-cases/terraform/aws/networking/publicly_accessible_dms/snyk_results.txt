@@ -1,0 +1,57 @@
+Failed to run the process ...
+{
+  "meta": {
+    "isPrivate": true,
+    "isLicensesEnabled": false,
+    "ignoreSettings": null,
+    "org": "yi2020",
+    "projectId": "",
+    "policy": ""
+  },
+  "filesystemPolicy": false,
+  "vulnerabilities": [],
+  "dependencyCount": 0,
+  "licensesPolicy": null,
+  "ignoreSettings": null,
+  "targetFile": "main.tf",
+  "projectName": "project",
+  "org": "yi2020",
+  "policy": "",
+  "isPrivate": true,
+  "targetFilePath": "/project/main.tf",
+  "packageManager": "terraformconfig",
+  "path": "/project",
+  "projectType": "terraformconfig",
+  "ok": false,
+  "infrastructureAsCodeIssues": [
+    {
+      "severity": "high",
+      "description": "",
+      "resolve": "Set `publicly_accessible` attribute to `false`",
+      "id": "SNYK-CC-TF-50",
+      "impact": "Increases attack vector reachability",
+      "msg": "resource.aws_dms_replication_instance[test].publicly_accessible",
+      "subType": "Public Access",
+      "issue": "AWS resource is publicly accessible",
+      "publicId": "SNYK-CC-TF-50",
+      "title": "Resource is publicly accessible",
+      "references": [
+        "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html",
+        "https://docs.aws.amazon.com/redshift/latest/mgmt/managing-clusters-vpc.html"
+      ],
+      "isIgnored": false,
+      "iacDescription": {
+        "issue": "AWS resource is publicly accessible",
+        "impact": "Increases attack vector reachability",
+        "resolve": "Set `publicly_accessible` attribute to `false`"
+      },
+      "lineNumber": 62,
+      "documentation": "https://snyk.io/security-rules/SNYK-CC-TF-50",
+      "path": [
+        "resource",
+        "aws_dms_replication_instance[test]",
+        "publicly_accessible"
+      ]
+    }
+  ]
+}

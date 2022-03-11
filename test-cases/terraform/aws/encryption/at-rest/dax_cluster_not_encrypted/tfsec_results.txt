@@ -1,0 +1,51 @@
+
+  Result 1
+
+  [aws-dynamodb-enable-at-rest-encryption][[0m[31mHIGH[39m[0m] DAX cluster 'aws_dax_cluster.cloudrail-test' does not have server side encryption configured. By default it is disabled.
+  /src/main.tf:25-30
+
+
+      22 | EOF
+      23 | }
+      24 | 
+      25 | resource "aws_dax_cluster" "cloudrail-test" {
+      26 |   cluster_name       = "non-encrypt"
+      27 |   iam_role_arn       = aws_iam_role.dax.arn
+      28 |   node_type          = "dax.r4.large"
+      29 |   replication_factor = 1
+      30 | }
+      31 | 
+
+  Legacy ID:  AWS081
+  Impact:     Data can be freely read if compromised
+  Resolution: Enable encryption at rest for DAX Cluster
+
+  More Info:
+  - https://tfsec.dev/docs/aws/dynamodb/enable-at-rest-encryption#aws/dynamodb 
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dax_cluster#server_side_encryption 
+  - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAXEncryptionAtRest.html 
+  - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dax-cluster.html 
+
+  times
+  ------------------------------------------
+  disk i/o             72.372875ms
+  parsing HCL          507.917µs
+  evaluating values    2.896626ms
+  running checks       18.232166ms
+
+  counts
+  ------------------------------------------
+  files loaded         1
+  blocks               3
+  modules              0
+
+  results
+  ------------------------------------------
+  critical             0
+  high                 1
+  medium               0
+  low                  0
+  ignored              0
+
+  1 potential problems detected.
+

@@ -1,0 +1,35 @@
+
+
+Violation Details -
+    
+	Description    :	Ensure AWS ELB has access logging enabled.
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	1
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	AWS ELB incoming traffic not encrypted
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	1
+	Severity       :	LOW
+	
+	-----------------------------------------------------------------------
+	
+
+Scan Summary -
+
+	File/Folder         :	/iac
+	IaC Type            :	all
+	Scanned At          :	2021-08-18 17:58:28.885827086 +0000 UTC
+	Policies Validated  :	2
+	Violated Policies   :	2
+	Low                 :	1
+	Medium              :	1
+	High                :	0
+	
+

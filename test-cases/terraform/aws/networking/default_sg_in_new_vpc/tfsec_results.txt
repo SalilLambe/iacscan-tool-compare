@@ -1,0 +1,52 @@
+
+  Result 1
+
+  [aws-ec2-enforce-http-token-imds][[0m[31mHIGH[39m[0m] Resource 'aws_instance.ec2' is missing `metadata_options` block - it is required with `http_tokens` set to `required` to make Instance Metadata Service more secure.
+  /src/main.tf:31-39
+
+
+      28 |   }
+      29 | }
+      30 | 
+      31 | resource "aws_instance" "ec2" {
+      32 |   ami           = "ami-07cda0db070313c52"
+      33 |   instance_type = "t2.micro"
+      34 |   subnet_id     = aws_subnet.subnet.id
+      35 | 
+      36 |   tags = {
+      37 |     Name = local.test_name
+      38 |   }
+      39 | }
+
+  Legacy ID:  AWS079
+  Impact:     Instance metadata service can be interacted with freely
+  Resolution: Enable HTTP token requirement for IMDS
+
+  More Info:
+  - https://tfsec.dev/docs/aws/ec2/enforce-http-token-imds#aws/ec2 
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options 
+  - https://aws.amazon.com/blogs/security/defense-in-depth-open-firewalls-reverse-proxies-ssrf-vulnerabilities-ec2-instance-metadata-service 
+
+  times
+  ------------------------------------------
+  disk i/o             49.799666ms
+  parsing HCL          570.292µs
+  evaluating values    4.328209ms
+  running checks       16.616ms
+
+  counts
+  ------------------------------------------
+  files loaded         1
+  blocks               5
+  modules              0
+
+  results
+  ------------------------------------------
+  critical             0
+  high                 1
+  medium               0
+  low                  0
+  ignored              0
+
+  1 potential problems detected.
+

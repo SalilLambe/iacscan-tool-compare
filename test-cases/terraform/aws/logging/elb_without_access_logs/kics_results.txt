@@ -1,0 +1,60 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.3.2
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 575
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 1
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: /src/main.tf:1
+
+		001: resource "aws_elb" "test" {
+		002:   name = "test-lb-tf"
+		003:   availability_zones = ["us-west-2a", "us-west-2b", "us-west-2c"]
+
+
+ELB Access Logging Disabled, Severity: INFO, Results: 1
+Description: ELB should have logging enabled to help on error investigation
+Platform: Terraform
+
+	[1]: /src/main.tf:1
+
+		001: resource "aws_elb" "test" {
+		002:   name = "test-lb-tf"
+		003:   availability_zones = ["us-west-2a", "us-west-2b", "us-west-2c"]
+
+
+
+Results Summary:
+HIGH: 0
+MEDIUM: 0
+LOW: 0
+INFO: 2
+TOTAL: 2
+
+Scan duration: 4.427241228s

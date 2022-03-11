@@ -1,0 +1,71 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.3.2
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 575
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 1
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: /src/main.tf:5
+
+		004: 
+		005: resource "aws_iam_user" "user-1" {
+		006:   name = "user-1"
+
+
+IAM Policies Attached To User, Severity: LOW, Results: 1
+Description: IAM policies should be attached only to groups or roles
+Platform: Terraform
+
+	[1]: /src/main.tf:11
+
+		010:   name = "inline-policy"
+		011:   user = aws_iam_user.user-1.name
+		012: 
+
+
+IAM Policy Grants Full Permissions, Severity: MEDIUM, Results: 1
+Description: IAM policies allow all ('*') in a statement action
+Platform: Terraform
+
+	[1]: /src/main.tf:22
+
+		021:       "Effect": "Allow",
+		022:       "Resource": "*"
+		023:     }
+
+
+
+Results Summary:
+HIGH: 0
+MEDIUM: 1
+LOW: 1
+INFO: 1
+TOTAL: 3
+
+Scan duration: 4.780012905s
