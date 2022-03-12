@@ -28,19 +28,19 @@
 #   done
 # }
 
-# KICS
-# function run_kics {
-#   echo Now running KICS on all cases
-#   docker pull checkmarx/kics:latest
-#   docker run -t -v $PWD:/tf checkmarx/kics version | awk '{print $NF}' >version_kics.txt
-#   find . -name "main.tf" -exec dirname {} \; | grep -v "\.terraform" | while read -r test_case; do
-#     echo $test_case
-#     ORG_PATH=$PWD
-#     cd $test_case
-#     if [ ! -f kics_results.txt ]; then docker run --rm -v "$(pwd):/src" checkmarx/kics:latest scan -p /src | sed "s~$ORG_PATH~tool-compare~" | grep -v "Executing queries" >kics_results.txt; fi
-#     cd $ORG_PATH
-#   done
-# }
+KICS
+function run_kics {
+  echo Now running KICS on all cases
+  docker pull checkmarx/kics:latest
+  docker run -t -v $PWD:/tf checkmarx/kics version | awk '{print $NF}' >version_kics.txt
+  find . -name "main.tf" -exec dirname {} \; | grep -v "\.terraform" | while read -r test_case; do
+    echo $test_case
+    ORG_PATH=$PWD
+    cd $test_case
+    if [ ! -f kics_results.txt ]; then docker run --rm -v "$(pwd):/src" checkmarx/kics:latest scan -p /src | sed "s~$ORG_PATH~tool-compare~" | grep -v "Executing queries" >kics_results.txt; fi
+    cd $ORG_PATH
+  done
+}
 
 # Terrascan
 # function run_terrascan {
@@ -97,20 +97,20 @@
 #   done
 # }
 
-# function run_all {
-#   # run_checkov
-#   # run_cloudrail
-#   # run_kics
-#   # run_snyk
-#   # run_terrascan
-#   # run_tfsec
-# }
+function run_all {
+  # run_checkov
+  # run_cloudrail
+  run_kics
+  # run_snyk
+  # run_terrascan
+  # run_tfsec
+}
 
-# Verify AWS access for plan
-# if [ -z "$AWS_ACCESS_KEY_ID" -a -z "$AWS_DEFAULT_PROFILE" ]; then
-#   echo "To run this script, you'll need AWS credentials (for use with terraform plan)."
-#   exit 1
-# fi
+Verify AWS access for plan
+if [ -z "$AWS_ACCESS_KEY_ID" -a -z "$AWS_DEFAULT_PROFILE" ]; then
+  echo "To run this script, you'll need AWS credentials (for use with terraform plan)."
+  exit 1
+fi
 export AWS_REGION=us-west-1
 
 # Verify Azure access for plan
