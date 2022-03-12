@@ -38,7 +38,11 @@ jobs:
     - name: Run Py to update the ReadMe    
       run: python generate_readme_tables.py > README.md
       
-    - name: Update the files with result  
-      uses: mikeal/publish-to-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+    - name: Update Findings
+      uses: andstor/copycat-action@v3
+      with:
+        personal_token: ${{ secrets.REPO_TOKEN }}
+        src_path: /README.md
+        dst_path: /.
+        dst_owner: SalilLambe
+        dst_repo_name: iacscan-tool-compare

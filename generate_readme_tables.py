@@ -114,7 +114,7 @@ if __name__ == "__main__":
     top_level_categories_cash_catch_stats = {
         "categories": [
             {"name": "Terraform - AWS", "path": "test-cases/terraform/aws"},
-            {"name": "Terraform - Azure", "path": "test-cases/terraform/azure"},
+            # {"name": "Terraform - Azure", "path": "test-cases/terraform/azure"},
             {"name": "Terraform - Advanced Language Expressions", "path": "test-cases/terraform/hcl_language_complexity"}
         ]
     }
