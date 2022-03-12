@@ -97,20 +97,20 @@
 #   done
 # }
 
-function run_all {
-  # run_checkov
-  # run_cloudrail
-  run_kics
-  # run_snyk
-  # run_terrascan
-  # run_tfsec
-}
+# function run_all {
+#   # run_checkov
+#   # run_cloudrail
+#   # run_kics
+#   # run_snyk
+#   # run_terrascan
+#   # run_tfsec
+# }
 
 # Verify AWS access for plan
-if [ -z "$AWS_ACCESS_KEY_ID" -a -z "$AWS_DEFAULT_PROFILE" ]; then
-  echo "To run this script, you'll need AWS credentials (for use with terraform plan)."
-  exit 1
-fi
+# if [ -z "$AWS_ACCESS_KEY_ID" -a -z "$AWS_DEFAULT_PROFILE" ]; then
+#   echo "To run this script, you'll need AWS credentials (for use with terraform plan)."
+#   exit 1
+# fi
 export AWS_REGION=us-west-1
 
 # Verify Azure access for plan
@@ -143,10 +143,10 @@ case $1 in
 #   "$@"
 #   exit
 #   ;;
-run_kics)
-  "$@"
-  exit
-  ;;
+# run_kics)
+#   "$@"
+#   exit
+#   ;;
 # run_snyk)
 #   "$@"
 #   exit

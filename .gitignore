@@ -9,12 +9,12 @@
 *.tfstate.*
 
 # Plan files generated for testing
-plan.out
+# plan.out
 
 # Snyk files generated as part of execution
-snyk_report.*
-snyk-result.json
-snyk-error.log
+# snyk_report.*
+# snyk-result.json
+# snyk-error.log
 
 # Crash log files
 crash.log
