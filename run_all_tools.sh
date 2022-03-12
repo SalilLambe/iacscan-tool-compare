@@ -143,10 +143,10 @@ case $1 in
 #   "$@"
 #   exit
 #   ;;
-# run_kics)
-  # "$@"
-  # exit
-  # ;;
+run_kics)
+  "$@"
+  exit
+  ;;
 # run_snyk)
 #   "$@"
 #   exit
