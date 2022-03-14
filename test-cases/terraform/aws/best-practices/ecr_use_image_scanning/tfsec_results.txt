@@ -1,0 +1,90 @@
+
+Result #1 HIGH Repository tags are mutable. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 3
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_ecr_repository" "foo" {
+    2  │   name                 = "bar"
+    3  │   image_tag_mutability = "MUTABLE"
+    4  │ 
+    5  │   image_scanning_configuration {
+    6  │     scan_on_push = false
+    7  │   }
+    8  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ecr-enforce-immutable-repository
+      Impact Image tags could be overwritten with compromised images
+  Resolution Only use immutable images in ECR
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ecr/enforce-immutable-repository/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Image scanning is not enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 6
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │   image_scanning_configuration {
+    6  │     scan_on_push = false        false
+    7  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ecr-enable-image-scans
+      Impact The ability to scan images is not being used and vulnerabilities will not be highlighted
+  Resolution Enable ECR image scanning
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ecr/enable-image-scans/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository#image_scanning_configuration
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 LOW Repository is not encrypted using KMS. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-8
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_ecr_repository" "foo" {
+    2  │   name                 = "bar"
+    3  │   image_tag_mutability = "MUTABLE"
+    4  │ 
+    5  │   image_scanning_configuration {
+    6  │     scan_on_push = false
+    7  │   }
+    8  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ecr-repository-customer-key
+      Impact Using AWS managed keys does not allow for fine grained control
+  Resolution Use customer managed keys
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ecr/repository-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository#encryption_configuration
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             2.057616ms
+  parsing              177.7µs
+  adaptation           75.001µs
+  checks               886.406µs
+  total                3.196723ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               1
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 2
+  medium               0
+  low                  1
+
+  3 potential problem(s) detected.
+

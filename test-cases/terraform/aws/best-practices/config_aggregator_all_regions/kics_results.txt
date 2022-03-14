@@ -1,0 +1,74 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.5.3
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 859
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 1
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: ../../src/main.tf:1
+
+		001: resource "aws_config_configuration_aggregator" "organization" {
+		002: 
+		003:   name = "example"
+
+
+IAM Access Analyzer Undefined, Severity: MEDIUM, Results: 1
+Description: IAM Access Analyzer should be defined to identify unintentional access
+Platform: Terraform
+
+	[1]: ../../src/main.tf:1
+
+		001: resource "aws_config_configuration_aggregator" "organization" {
+		002: 
+		003:   name = "example"
+
+
+Configuration Aggregator to All Regions Disabled, Severity: HIGH, Results: 1
+CIS ID: CIS Security - CIS Amazon Web Services Foundations Benchmark v1.4.0 - Rule 3.5
+Title: Ensure AWS Config is enabled in all regions
+Description: AWS Config is a web service that performs configuration management of supported AWS resources within your account and delivers log files to you. The recorded information includes the configuration item (AWS resource), relationships between configuration items (AWS resources), any configuration changes between resources. It is recommended AWS Config be enabled in all regions.
+The AWS configuration item history captured by AWS Config enables security analysis, resource change tracking, and compliance auditing.
+Platform: Terraform
+
+	[1]: ../../src/main.tf:5
+
+		004: 
+		005:   account_aggregation_source {
+		006:     account_ids = ["123456789012"]
+
+
+
+Results Summary:
+HIGH: 1
+MEDIUM: 1
+LOW: 0
+INFO: 1
+TOTAL: 3
+
+Scan duration: 26.593411702s

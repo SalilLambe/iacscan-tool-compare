@@ -1,0 +1,14 @@
+terraform scan results:
+
+Passed checks: 2, Failed checks: 1, Skipped checks: 0
+
+Check: CKV_AWS_158: "Ensure that CloudWatch Log Group is encrypted by KMS"
+	FAILED for resource: aws_cloudwatch_log_group.cloudrail-test
+	File: /main.tf:5-7
+	Guide: https://docs.bridgecrew.io/docs/ensure-that-cloudwatch-log-group-is-encrypted-by-kms
+
+		5 | resource "aws_cloudwatch_log_group" "cloudrail-test" {
+		6 |   retention_in_days = 1
+		7 | }
+
+

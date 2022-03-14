@@ -1,0 +1,44 @@
+
+Result #1 LOW Secret explicitly uses the default key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-7
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_secretsmanager_secret" "test" {
+    6  │   name = "test-cloudrail"
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ssm-secret-use-customer-key
+      Impact Using AWS managed keys reduces the flexibility and control over the encryption key
+  Resolution Use customer managed keys
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ssm/secret-use-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret#kms_key_id
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.887413ms
+  parsing              249.102µs
+  adaptation           73.2µs
+  checks               1.438511ms
+  total                3.648226ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 0
+  medium               0
+  low                  1
+
+  1 potential problem(s) detected.
+

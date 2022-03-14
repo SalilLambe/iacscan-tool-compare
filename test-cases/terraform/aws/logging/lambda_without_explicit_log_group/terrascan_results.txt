@@ -1,0 +1,35 @@
+
+
+Violation Details -
+    
+	Description    :	Lambda tracing is not enabled.
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	57
+	Severity       :	LOW
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Lambda function does not include a VPC configuration.
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	57
+	Severity       :	Low
+	
+	-----------------------------------------------------------------------
+	
+
+Scan Summary -
+
+	File/Folder         :	/iac
+	IaC Type            :	all
+	Scanned At          :	2022-03-14 11:16:26.020021847 +0000 UTC
+	Policies Validated  :	4
+	Violated Policies   :	2
+	Low                 :	2
+	Medium              :	0
+	High                :	0
+	
+

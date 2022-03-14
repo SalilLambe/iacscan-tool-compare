@@ -1,0 +1,394 @@
+
+Result #1 CRITICAL Distribution allows unencrypted communications. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 49
+───────┬────────────────────────────────────────────────────────────────────────
+   36  │   default_cache_behavior {
+   37  │     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+   38  │     cached_methods   = ["GET", "HEAD"]
+   39  │     target_origin_id = local.s3_origin_id
+   40  │ 
+   41  │     forwarded_values {
+   42  │       query_string = false
+   43  │ 
+   44  │       cookies {
+   45  │         forward = "none"
+   46  │       }
+   47  │     }
+   48  │ 
+   49  │     viewer_protocol_policy = "allow-all"        "allow-all"
+   50  │     min_ttl                = 0
+   51  │     default_ttl            = 3600
+   52  │     max_ttl                = 86400
+   53  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-cloudfront-enforce-https
+      Impact CloudFront is available through an unencrypted connection
+  Resolution Only allow HTTPS for CloudFront distribution communication
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/cloudfront/enforce-https/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#viewer_protocol_policy
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH No public access block so not blocking public acls 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-block-public-acls
+      Impact PUT calls with public ACLs specified can make objects public
+  Resolution Enable blocking any PUT calls with a public ACL specified
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/block-public-acls/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_acls
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 HIGH No public access block so not blocking public policies 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-block-public-policy
+      Impact Users could put a policy that allows public access
+  Resolution Prevent policies that allow public access being PUT
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/block-public-policy/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_policy
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 HIGH Bucket does not have encryption enabled 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-enable-bucket-encryption
+      Impact The bucket objects could be read if compromised
+  Resolution Configure bucket encryption
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/enable-bucket-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #5 HIGH No public access block so not ignoring public acls 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-ignore-public-acls
+      Impact PUT calls with public ACLs specified can make objects public
+  Resolution Enable ignoring the application of public ACLs in PUT calls
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/ignore-public-acls/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#ignore_public_acls
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #6 HIGH No public access block so not restricting public buckets 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-no-public-buckets
+      Impact Public buckets can be accessed by anyone
+  Resolution Limit the access to public buckets to only the owner or AWS Services (eg; CloudFront)
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/no-public-buckets/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#restrict_public_buckets¡
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #7 HIGH Bucket does not encrypt data with a customer managed key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-encryption-customer-key
+      Impact Using AWS managed keys does not allow for fine grained control
+  Resolution Enable encryption using customer managed keys
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/encryption-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #8 HIGH Distribution allows unencrypted communications. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 113-115
+───────┬────────────────────────────────────────────────────────────────────────
+  113  │   viewer_certificate {
+  114  │     cloudfront_default_certificate = true
+  115  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-cloudfront-use-secure-tls-policy
+      Impact Outdated SSL policies increase exposure to known vulnerabilities
+  Resolution Use the most modern TLS/SSL policies available
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/cloudfront/use-secure-tls-policy/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#minimum_protocol_version
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #9 HIGH Distribution does not utilise a WAF. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 13-116
+───────┬────────────────────────────────────────────────────────────────────────
+   13  │ resource "aws_cloudfront_distribution" "s3_distribution" {
+   14  │   origin {
+   15  │     domain_name = aws_s3_bucket.b.bucket_regional_domain_name
+   16  │     origin_id   = local.s3_origin_id
+   17  │ 
+   18  │     s3_origin_config {
+   19  │       origin_access_identity = "origin-access-identity/cloudfront/ABCDEFG1234567"
+   20  │     }
+   21  │   }
+   22  │ 
+   23  │   enabled             = true
+   24  │   is_ipv6_enabled     = true
+   25  │   comment             = "Some comment"
+   26  │   default_root_object = "index.html"
+   27  │ 
+   28  │   logging_config {
+   29  │     include_cookies = false
+   30  │     bucket          = "mylogs.s3.amazonaws.com"
+   31  │     prefix          = "myprefix"
+   32  │   }
+   33  │ 
+   34  │   aliases = ["mysite.example.com", "yoursite.example.com"]
+   35  │ 
+   36  │   default_cache_behavior {
+   37  │     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+   38  │     cached_methods   = ["GET", "HEAD"]
+   39  │     target_origin_id = local.s3_origin_id
+   40  │ 
+   41  │     forwarded_values {
+   42  │       query_string = false
+   43  │ 
+   44  │       cookies {
+   45  │         forward = "none"
+   46  │       }
+   47  │     }
+   48  │ 
+   49  │     viewer_protocol_policy = "allow-all"
+   50  │     min_ttl                = 0
+   51  │     default_ttl            = 3600
+   52  │     max_ttl                = 86400
+   53  │   }
+   54  │ 
+   55  │   # Cache behavior with precedence 0
+   56  │   ordered_cache_behavior {
+   57  │     path_pattern     = "/content/immutable/*"
+   58  │     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+   59  │     cached_methods   = ["GET", "HEAD", "OPTIONS"]
+   60  │     target_origin_id = local.s3_origin_id
+   61  │ 
+   62  │     forwarded_values {
+   63  │       query_string = false
+   64  │       headers      = ["Origin"]
+   65  │ 
+   66  │       cookies {
+   67  │         forward = "none"
+   68  │       }
+   69  │     }
+   70  │ 
+   71  │     min_ttl                = 0
+   72  │     default_ttl            = 86400
+   73  │     max_ttl                = 31536000
+   74  │     compress               = true
+   75  │     viewer_protocol_policy = "redirect-to-https"
+   76  │   }
+   77  │ 
+   78  │   # Cache behavior with precedence 1
+   79  │   ordered_cache_behavior {
+   80  │     path_pattern     = "/content/*"
+   81  │     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+   82  │     cached_methods   = ["GET", "HEAD"]
+   83  │     target_origin_id = local.s3_origin_id
+   84  │ 
+   85  │     forwarded_values {
+   86  │       query_string = false
+   87  │ 
+   88  │       cookies {
+   89  │         forward = "none"
+   90  │       }
+   91  │     }
+   92  │ 
+   93  │     min_ttl                = 0
+   94  │     default_ttl            = 3600
+   95  │     max_ttl                = 86400
+   96  │     compress               = true
+   97  │     viewer_protocol_policy = "redirect-to-https"
+   98  │   }
+   99  │ 
+  100  │   price_class = "PriceClass_200"
+  101  │ 
+  102  │   restrictions {
+  103  │     geo_restriction {
+  104  │       restriction_type = "whitelist"
+  105  │       locations        = ["US", "CA", "GB", "DE"]
+  106  │     }
+  107  │   }
+  108  │ 
+  109  │   tags = {
+  110  │     Environment = "production"
+  111  │   }
+  112  │ 
+  113  │   viewer_certificate {
+  114  │     cloudfront_default_certificate = true
+  115  │   }
+  116  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-cloudfront-enable-waf
+      Impact Complex web application attacks can more easily be performed without a WAF
+  Resolution Enable WAF for the CloudFront distribution
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/cloudfront/enable-waf/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#web_acl_id
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #10 MEDIUM Bucket does not have logging enabled 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-enable-bucket-logging
+      Impact There is no way to determine the access to this bucket
+  Resolution Add a logging block to the resource to enable access logging
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/enable-bucket-logging/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #11 MEDIUM Bucket does not have versioning enabled 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-enable-versioning
+      Impact Deleted or modified data would not be recoverable
+  Resolution Enable versioning to protect against accidental/malicious removal or modification
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/enable-versioning/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#versioning
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #12 LOW Bucket does not have a corresponding public access block. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_s3_bucket" "b" {
+    2  │   bucket = "mybucket"
+    3  │ 
+    4  │   tags = {
+    5  │     Name = "My bucket"
+    6  │   }
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-specify-public-access-block
+      Impact Public access policies may be applied to sensitive data buckets
+  Resolution Define a aws_s3_bucket_public_access_block for the given bucket to control public access policies
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/specify-public-access-block/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#bucket
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.44971ms
+  parsing              542.903µs
+  adaptation           88.701µs
+  checks               2.295816ms
+  total                4.37713ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               3
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 8
+  medium               2
+  low                  1
+
+  12 potential problem(s) detected.
+

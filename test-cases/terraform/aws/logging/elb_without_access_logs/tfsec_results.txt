@@ -1,0 +1,76 @@
+
+Result #1 HIGH Application load balancer is not set to drop invalid headers. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-10
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_elb" "test" {
+    2  │   name = "test-lb-tf"
+    3  │   availability_zones = ["us-west-2a", "us-west-2b", "us-west-2c"]
+    4  │   listener {
+    5  │     instance_port     = 8000
+    6  │     instance_protocol = "http"
+    7  │     lb_port           = 80
+    8  │     lb_protocol       = "http"
+    9  │   }
+   10  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-elb-drop-invalid-headers
+      Impact Invalid headers being passed through to the target of the load balance may exploit vulnerabilities
+  Resolution Set drop_invalid_header_fields to true
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/elb/drop-invalid-headers/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb#drop_invalid_header_fields
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Load balancer is exposed publicly. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-10
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_elb" "test" {
+    2  │   name = "test-lb-tf"
+    3  │   availability_zones = ["us-west-2a", "us-west-2b", "us-west-2c"]
+    4  │   listener {
+    5  │     instance_port     = 8000
+    6  │     instance_protocol = "http"
+    7  │     lb_port           = 80
+    8  │     lb_protocol       = "http"
+    9  │   }
+   10  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-elb-alb-not-public
+      Impact The load balancer is exposed on the internet
+  Resolution Switch to an internal load balancer or add a tfsec ignore
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/elb/alb-not-public/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             2.086015ms
+  parsing              166.401µs
+  adaptation           67.1µs
+  checks               1.015807ms
+  total                3.335323ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               1
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 2
+  medium               0
+  low                  0
+
+  2 potential problem(s) detected.
+

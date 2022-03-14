@@ -1,0 +1,102 @@
+
+Result #1 HIGH Bucket does not have encryption enabled 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-8
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_s3_bucket" "cloudrail" {
+    6  │   bucket = "cloudrail-non-encrypted-czx7zxchs"
+    7  │   acl    = "private"
+    8  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-enable-bucket-encryption
+      Impact The bucket objects could be read if compromised
+  Resolution Configure bucket encryption
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/enable-bucket-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Bucket does not encrypt data with a customer managed key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-8
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_s3_bucket" "cloudrail" {
+    6  │   bucket = "cloudrail-non-encrypted-czx7zxchs"
+    7  │   acl    = "private"
+    8  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-encryption-customer-key
+      Impact Using AWS managed keys does not allow for fine grained control
+  Resolution Enable encryption using customer managed keys
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/encryption-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 MEDIUM Bucket does not have logging enabled 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-8
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_s3_bucket" "cloudrail" {
+    6  │   bucket = "cloudrail-non-encrypted-czx7zxchs"
+    7  │   acl    = "private"
+    8  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-enable-bucket-logging
+      Impact There is no way to determine the access to this bucket
+  Resolution Add a logging block to the resource to enable access logging
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/enable-bucket-logging/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 MEDIUM Bucket does not have versioning enabled 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-8
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_s3_bucket" "cloudrail" {
+    6  │   bucket = "cloudrail-non-encrypted-czx7zxchs"
+    7  │   acl    = "private"
+    8  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-s3-enable-versioning
+      Impact Deleted or modified data would not be recoverable
+  Resolution Enable versioning to protect against accidental/malicious removal or modification
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/s3/enable-versioning/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#versioning
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             882.605µs
+  parsing              312.401µs
+  adaptation           82.601µs
+  checks               881.706µs
+  total                2.159313ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               3
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 2
+  medium               2
+  low                  0
+
+  4 potential problem(s) detected.
+

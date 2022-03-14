@@ -1,0 +1,88 @@
+
+Result #1 HIGH IAM policy document uses sensitive action 'iam:passrole' on wildcarded resource '*' 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 38
+───────┬────────────────────────────────────────────────────────────────────────
+   33  │       {
+   34  │         "Action": [
+   35  │           "iam:passrole"
+   36  │         ],
+   37  │         "Effect": "Allow",
+   38  │         "Resource": "*"
+   39  │       }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-iam-no-policy-wildcards
+      Impact Overly permissive policies may grant access to sensitive resources
+  Resolution Specify the exact permissions required, and to which resources they should apply instead of using wildcards.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/iam/no-policy-wildcards/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH IAM policy document uses wildcarded action 'lambda:createfunction' 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 54-56
+───────┬────────────────────────────────────────────────────────────────────────
+   54  │         "Action": [
+   55  │           "lambda:createfunction", "lambda:invokefunc*"
+   56  │         ],
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-iam-no-policy-wildcards
+      Impact Overly permissive policies may grant access to sensitive resources
+  Resolution Specify the exact permissions required, and to which resources they should apply instead of using wildcards.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/iam/no-policy-wildcards/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 HIGH IAM policy document uses sensitive action 'lambda:createfunction' on wildcarded resource '*' 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 58
+───────┬────────────────────────────────────────────────────────────────────────
+   53  │       {
+   54  │         "Action": [
+   55  │           "lambda:createfunction", "lambda:invokefunc*"
+   56  │         ],
+   57  │         "Effect": "Allow",
+   58  │         "Resource": "*"
+   59  │       }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-iam-no-policy-wildcards
+      Impact Overly permissive policies may grant access to sensitive resources
+  Resolution Specify the exact permissions required, and to which resources they should apply instead of using wildcards.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/iam/no-policy-wildcards/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.302709ms
+  parsing              369.803µs
+  adaptation           288.002µs
+  checks               1.632611ms
+  total                3.593125ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               4
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 3
+  medium               0
+  low                  0
+
+  3 potential problem(s) detected.
+

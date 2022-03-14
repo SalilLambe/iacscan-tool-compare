@@ -1,0 +1,74 @@
+terraform scan results:
+
+Passed checks: 2, Failed checks: 5, Skipped checks: 0
+
+Check: CKV_AWS_83: "Ensure Elasticsearch Domain enforces HTTPS"
+	FAILED for resource: aws_elasticsearch_domain.example
+	File: /main.tf:5-13
+	Guide: https://docs.bridgecrew.io/docs/elasticsearch_6
+
+		5  | resource "aws_elasticsearch_domain" "example" {
+		6  |   domain_name           = "cloudrail-non-enc-in-tran"
+		7  |   elasticsearch_version = "6.0"
+		8  | 
+		9  |   cluster_config {
+		10 |     instance_type = "i3.large.elasticsearch"
+		11 |   }
+		12 | 
+		13 | }
+Check: CKV_AWS_5: "Ensure all data stored in the Elasticsearch is securely encrypted at rest"
+	FAILED for resource: aws_elasticsearch_domain.example
+	File: /main.tf:5-13
+	Guide: https://docs.bridgecrew.io/docs/elasticsearch_3-enable-encryptionatrest
+
+		5  | resource "aws_elasticsearch_domain" "example" {
+		6  |   domain_name           = "cloudrail-non-enc-in-tran"
+		7  |   elasticsearch_version = "6.0"
+		8  | 
+		9  |   cluster_config {
+		10 |     instance_type = "i3.large.elasticsearch"
+		11 |   }
+		12 | 
+		13 | }
+Check: CKV_AWS_137: "Ensure that Elasticsearch is configured inside a VPC"
+	FAILED for resource: aws_elasticsearch_domain.example
+	File: /main.tf:5-13
+	Guide: https://docs.bridgecrew.io/docs/ensure-that-elasticsearch-is-configured-inside-a-vpc
+
+		5  | resource "aws_elasticsearch_domain" "example" {
+		6  |   domain_name           = "cloudrail-non-enc-in-tran"
+		7  |   elasticsearch_version = "6.0"
+		8  | 
+		9  |   cluster_config {
+		10 |     instance_type = "i3.large.elasticsearch"
+		11 |   }
+		12 | 
+		13 | }
+Check: CKV_AWS_228: "Verify Elasticsearch domain is using an up to date TLS policy"
+	FAILED for resource: aws_elasticsearch_domain.example
+	File: /main.tf:5-13
+
+		5  | resource "aws_elasticsearch_domain" "example" {
+		6  |   domain_name           = "cloudrail-non-enc-in-tran"
+		7  |   elasticsearch_version = "6.0"
+		8  | 
+		9  |   cluster_config {
+		10 |     instance_type = "i3.large.elasticsearch"
+		11 |   }
+		12 | 
+		13 | }
+Check: CKV_AWS_84: "Ensure Elasticsearch Domain Logging is enabled"
+	FAILED for resource: aws_elasticsearch_domain.example
+	File: /main.tf:5-13
+	Guide: https://docs.bridgecrew.io/docs/elasticsearch_7
+
+		5  | resource "aws_elasticsearch_domain" "example" {
+		6  |   domain_name           = "cloudrail-non-enc-in-tran"
+		7  |   elasticsearch_version = "6.0"
+		8  | 
+		9  |   cluster_config {
+		10 |     instance_type = "i3.large.elasticsearch"
+		11 |   }
+		12 | 
+		13 | }
+

@@ -1,0 +1,44 @@
+
+
+Violation Details -
+    
+	Description    :	Ensure that your AWS Cloudfront distributions have the Logging feature enabled in order to track all viewer requests for the content delivered through the Content Delivery Network (CDN).
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	14
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that cloud-front has web application firewall enabled
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	14
+	Severity       :	Medium
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Enabling S3 versioning will enable easy recovery from both unintended user actions, like deletes and overwrites
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	1
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+
+Scan Summary -
+
+	File/Folder         :	/iac
+	IaC Type            :	all
+	Scanned At          :	2022-03-14 11:17:18.150383595 +0000 UTC
+	Policies Validated  :	15
+	Violated Policies   :	3
+	Low                 :	0
+	Medium              :	2
+	High                :	1
+	
+

@@ -1,0 +1,107 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.5.3
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 859
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 1
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: ../../src/main.tf:5
+
+		004: 
+		005: resource "aws_iam_user" "user-1" {
+		006:   name = "user-1"
+
+
+Name Is Not Snake Case, Severity: INFO, Results: 1
+Description: All names should follow snake case pattern.
+Platform: Terraform
+
+	[1]: ../../src/main.tf:5
+
+		004: 
+		005: resource "aws_iam_user" "user-1" {
+		006:   name = "user-1"
+
+
+IAM Policies Attached To User, Severity: LOW, Results: 1
+Description: IAM policies should be attached only to groups or roles
+Platform: Terraform
+
+	[1]: ../../src/main.tf:11
+
+		010:   name = "inline-policy"
+		011:   user = aws_iam_user.user-1.name
+		012: 
+
+
+IAM Policy Grants Full Permissions, Severity: MEDIUM, Results: 1
+Description: IAM policies allow all ('*') in a statement action
+Platform: Terraform
+
+	[1]: ../../src/main.tf:13
+
+		012: 
+		013:   policy = <<EOF
+		014: {
+
+
+IAM Access Analyzer Undefined, Severity: MEDIUM, Results: 1
+Description: IAM Access Analyzer should be defined to identify unintentional access
+Platform: Terraform
+
+	[1]: ../../src/main.tf:5
+
+		004: 
+		005: resource "aws_iam_user" "user-1" {
+		006:   name = "user-1"
+
+
+Authentication Without MFA, Severity: HIGH, Results: 1
+CIS ID: CIS Security - CIS Amazon Web Services Foundations Benchmark v1.4.0 - Rule 1.10
+Title: Ensure multi-factor authentication (MFA) is enabled for all IAM users that have a console password
+Description: Multi-Factor Authentication (MFA) adds an extra layer of authentication assurance beyond traditional credentials. With MFA enabled, when a user signs in to the AWS Console, they will be prompted for their user name and password as well as for an authentication code from their physical or virtual MFA token. It is recommended that MFA be enabled for all accounts that have a console password.
+Enabling MFA provides increased security for console access as it requires the authenticating principal to possess a device that displays a time-sensitive key and have knowledge of a credential.
+Platform: Terraform
+
+	[1]: ../../src/main.tf:13
+
+		012: 
+		013:   policy = <<EOF
+		014: {
+
+
+
+Results Summary:
+HIGH: 1
+MEDIUM: 2
+LOW: 1
+INFO: 2
+TOTAL: 6
+
+Scan duration: 25.542062177s

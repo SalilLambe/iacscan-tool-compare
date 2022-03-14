@@ -1,0 +1,72 @@
+
+Result #1 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 17-24
+───────┬────────────────────────────────────────────────────────────────────────
+   17  │ resource "aws_instance" "web" {
+   18  │   ami           = data.aws_ami.ubuntu.id
+   19  │   instance_type = "c1.xlarge"
+   20  │ 
+   21  │   tags = {
+   22  │     Name = "HelloWorld"
+   23  │   }
+   24  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 17-24
+───────┬────────────────────────────────────────────────────────────────────────
+   17  │ resource "aws_instance" "web" {
+   18  │   ami           = data.aws_ami.ubuntu.id
+   19  │   instance_type = "c1.xlarge"
+   20  │ 
+   21  │   tags = {
+   22  │     Name = "HelloWorld"
+   23  │   }
+   24  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.768313ms
+  parsing              502.703µs
+  adaptation           72.5µs
+  checks               1.30871ms
+  total                3.652226ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 2
+  medium               0
+  low                  0
+
+  2 potential problem(s) detected.
+

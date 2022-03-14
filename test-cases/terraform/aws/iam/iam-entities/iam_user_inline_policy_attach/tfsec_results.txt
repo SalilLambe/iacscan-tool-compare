@@ -1,0 +1,66 @@
+
+Result #1 HIGH IAM policy document uses wildcarded action 'ec2:Describe*' 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 18-20
+───────┬────────────────────────────────────────────────────────────────────────
+   18  │       "Action": [
+   19  │         "ec2:Describe*"
+   20  │       ],
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-iam-no-policy-wildcards
+      Impact Overly permissive policies may grant access to sensitive resources
+  Resolution Specify the exact permissions required, and to which resources they should apply instead of using wildcards.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/iam/no-policy-wildcards/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH IAM policy document uses sensitive action 'ec2:Describe*' on wildcarded resource '*' 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 22
+───────┬────────────────────────────────────────────────────────────────────────
+   17  │     {
+   18  │       "Action": [
+   19  │         "ec2:Describe*"
+   20  │       ],
+   21  │       "Effect": "Allow",
+   22  │       "Resource": "*"
+   23  │     }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-iam-no-policy-wildcards
+      Impact Overly permissive policies may grant access to sensitive resources
+  Resolution Specify the exact permissions required, and to which resources they should apply instead of using wildcards.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/iam/no-policy-wildcards/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             917.307µs
+  parsing              290.001µs
+  adaptation           236.102µs
+  checks               938.206µs
+  total                2.381616ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               3
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 2
+  medium               0
+  low                  0
+
+  2 potential problem(s) detected.
+

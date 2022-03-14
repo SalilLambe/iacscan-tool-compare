@@ -1,0 +1,71 @@
+
+
+Violation Details -
+    
+	Description    :	Use encrypted connection between CloudFront and origin server
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	44
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Use encrypted connection between CloudFront and origin server
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	44
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that cloud-front has web application firewall enabled
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	44
+	Severity       :	Medium
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that geo restriction is enabled for your Amazon CloudFront CDN distribution to whitelist or blacklist a country in order to allow or restrict users in specific locations from accessing web application content.
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	44
+	Severity       :	LOW
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Enabling S3 versioning will enable easy recovery from both unintended user actions, like deletes and overwrites
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	10
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that your AWS Cloudfront distributions have the Logging feature enabled in order to track all viewer requests for the content delivered through the Content Delivery Network (CDN).
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	44
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+
+Scan Summary -
+
+	File/Folder         :	/iac
+	IaC Type            :	all
+	Scanned At          :	2022-03-14 11:18:41.441913551 +0000 UTC
+	Policies Validated  :	15
+	Violated Policies   :	6
+	Low                 :	1
+	Medium              :	2
+	High                :	3
+	
+

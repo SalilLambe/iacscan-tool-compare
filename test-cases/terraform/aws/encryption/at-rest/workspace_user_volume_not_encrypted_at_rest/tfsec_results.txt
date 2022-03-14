@@ -1,0 +1,87 @@
+
+Result #1 CRITICAL Attribute name appears sensitive and has a value which is defined within the project. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 34
+───────┬────────────────────────────────────────────────────────────────────────
+   32  │ resource "aws_directory_service_directory" "test" {
+   33  │   name     = "corp.notexample.com"
+   34  │   password = "SuperSecretPassw0rd"
+   35  │   size     = "Small"
+   36  │ 
+   37  │   vpc_settings {
+   38  │     vpc_id = data.aws_vpc.default.id
+   39  │ 
+   40  │     subnet_ids = [
+   41  │       local.default_subnet_list[0],
+   42  │       local.default_subnet_list[1]
+   43  │     ]
+   44  │   }
+   45  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID general-secrets-no-plaintext-exposure
+      Impact Sensitive data can be leaked to unauthorised people or systems.
+  Resolution Remove plaintext secrets and encrypt them within a secrets manager instead.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/general/secrets/no-plaintext-exposure/
+  - https://www.terraform.io/docs/state/sensitive-data.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Results #2-3 HIGH Root volume does not have encryption enabled. (2 similar results)
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 76-88
+───────┬────────────────────────────────────────────────────────────────────────
+   76  │ resource "aws_workspaces_workspace" "test" {
+   77  │   directory_id = aws_workspaces_directory.test.id
+   78  │   bundle_id    = data.aws_workspaces_bundle.value_windows_10.id
+   79  │   user_name    = "Administrator"
+   80  │ 
+   81  │   workspace_properties {
+   82  │     compute_type_name                         = "VALUE"
+   83  │     user_volume_size_gib                      = 10
+   84  │     root_volume_size_gib                      = 80
+   85  │     running_mode                              = "AUTO_STOP"
+   86  │     running_mode_auto_stop_timeout_in_minutes = 60
+   87  │   }
+   88  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+  Individual Causes
+  - /src/main.tf:76-88 (aws_workspaces_workspace.test)
+  - /src/main.tf:76-88 (aws_workspaces_workspace.test)
+────────────────────────────────────────────────────────────────────────────────
+          ID aws-workspaces-enable-disk-encryption
+      Impact Data can be freely read if compromised
+  Resolution Root and user volume encryption should be enabled
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/workspaces/enable-disk-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/workspaces_workspace#root_volume_encryption_enabled
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.227709ms
+  parsing              850.906µs
+  adaptation           121.601µs
+  checks               2.86422ms
+  total                5.064436ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               12
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 2
+  medium               0
+  low                  0
+
+  3 potential problem(s) detected.
+

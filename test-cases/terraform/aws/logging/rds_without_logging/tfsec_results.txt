@@ -1,0 +1,132 @@
+
+Result #1 CRITICAL Attribute name appears sensitive and has a value which is defined within the project. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 8
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_db_instance" "default" {
+    2  │   allocated_storage    = 10
+    3  │   engine               = "mysql"
+    4  │   engine_version       = "5.7"
+    5  │   instance_class       = "db.t3.micro"
+    6  │   name                 = "mydb"
+    7  │   username             = "foo"
+    8  │   password             = "foobarbaz"
+    9  │   parameter_group_name = "default.mysql5.7"
+   10  │   skip_final_snapshot  = true
+   11  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID general-secrets-no-plaintext-exposure
+      Impact Sensitive data can be leaked to unauthorised people or systems.
+  Resolution Remove plaintext secrets and encrypt them within a secrets manager instead.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/general/secrets/no-plaintext-exposure/
+  - https://www.terraform.io/docs/state/sensitive-data.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Instance does not have storage encryption enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-11
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_db_instance" "default" {
+    2  │   allocated_storage    = 10
+    3  │   engine               = "mysql"
+    4  │   engine_version       = "5.7"
+    5  │   instance_class       = "db.t3.micro"
+    6  │   name                 = "mydb"
+    7  │   username             = "foo"
+    8  │   password             = "foobarbaz"
+    9  │   parameter_group_name = "default.mysql5.7"
+   10  │   skip_final_snapshot  = true
+   11  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-encrypt-instance-storage-data
+      Impact Data can be read from RDS instances if compromised
+  Resolution Enable encryption for RDS instances
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/encrypt-instance-storage-data/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 MEDIUM Instance has very low backup retention period. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-11
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_db_instance" "default" {
+    2  │   allocated_storage    = 10
+    3  │   engine               = "mysql"
+    4  │   engine_version       = "5.7"
+    5  │   instance_class       = "db.t3.micro"
+    6  │   name                 = "mydb"
+    7  │   username             = "foo"
+    8  │   password             = "foobarbaz"
+    9  │   parameter_group_name = "default.mysql5.7"
+   10  │   skip_final_snapshot  = true
+   11  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-specify-backup-retention
+      Impact Potential loss of data and short opportunity for recovery
+  Resolution Explicitly set the retention period to greater than the default
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/specify-backup-retention/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster#backup_retention_period
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#backup_retention_period
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 LOW Instance does not have performance insights enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-11
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_db_instance" "default" {
+    2  │   allocated_storage    = 10
+    3  │   engine               = "mysql"
+    4  │   engine_version       = "5.7"
+    5  │   instance_class       = "db.t3.micro"
+    6  │   name                 = "mydb"
+    7  │   username             = "foo"
+    8  │   password             = "foobarbaz"
+    9  │   parameter_group_name = "default.mysql5.7"
+   10  │   skip_final_snapshot  = true
+   11  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-enable-performance-insights
+      Impact Without adequate monitoring, performance related issues may go unreported and potentially lead to compromise.
+  Resolution Enable performance insights
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/enable-performance-insights/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster_instance#performance_insights_kms_key_id
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#performance_insights_kms_key_id
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.55251ms
+  parsing              653.305µs
+  adaptation           74.4µs
+  checks               914.007µs
+  total                3.194222ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               1
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 1
+  medium               1
+  low                  1
+
+  4 potential problem(s) detected.
+

@@ -1,0 +1,115 @@
+
+Result #1 CRITICAL Security group rule allows ingress from public internet. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 17
+───────┬────────────────────────────────────────────────────────────────────────
+   12  │   ingress {
+   13  │     description      = "TLS anywhere"
+   14  │     from_port        = 443
+   15  │     to_port          = 443
+   16  │     protocol         = "tcp"
+   17  │     cidr_blocks      = ["0.0.0.0/0"]
+   18  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-no-public-ingress-sgr
+      Impact Your port exposed to the internet
+  Resolution Set a more restrictive cidr range
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/no-public-ingress-sgr/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 CRITICAL Security group rule allows egress to multiple public internet addresses. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 24
+───────┬────────────────────────────────────────────────────────────────────────
+   20  │   egress {
+   21  │     from_port        = 0
+   22  │     to_port          = 0
+   23  │     protocol         = "-1"
+   24  │     cidr_blocks      = ["0.0.0.0/0"]
+   25  │     ipv6_cidr_blocks = ["::/0"]
+   26  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-no-public-egress-sgr
+      Impact Your port is egressing data to the internet
+  Resolution Set a more restrictive cidr range
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/no-public-egress-sgr/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 CRITICAL Security group rule allows egress to multiple public internet addresses. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 25
+───────┬────────────────────────────────────────────────────────────────────────
+   20  │   egress {
+   21  │     from_port        = 0
+   22  │     to_port          = 0
+   23  │     protocol         = "-1"
+   24  │     cidr_blocks      = ["0.0.0.0/0"]
+   25  │     ipv6_cidr_blocks = ["::/0"]
+   26  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-no-public-egress-sgr
+      Impact Your port is egressing data to the internet
+  Resolution Set a more restrictive cidr range
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/no-public-egress-sgr/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 LOW Security group rule does not have a description. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 20-26
+───────┬────────────────────────────────────────────────────────────────────────
+   20  │   egress {
+   21  │     from_port        = 0
+   22  │     to_port          = 0
+   23  │     protocol         = "-1"
+   24  │     cidr_blocks      = ["0.0.0.0/0"]
+   25  │     ipv6_cidr_blocks = ["::/0"]
+   26  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-add-description-to-security-group-rule
+      Impact Descriptions provide context for the firewall rule reasons
+  Resolution Add descriptions for all security groups rules
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/add-description-to-security-group-rule/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             617.605µs
+  parsing              320.501µs
+  adaptation           205.702µs
+  checks               2.548718ms
+  total                3.692526ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             3
+  high                 0
+  medium               0
+  low                  1
+
+  4 potential problem(s) detected.
+

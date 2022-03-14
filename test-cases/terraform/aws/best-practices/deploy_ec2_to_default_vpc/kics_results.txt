@@ -1,0 +1,172 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.5.3
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 859
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 3
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: ../../src/main.tf:24
+
+		023: 
+		024: resource "aws_route_table" "default-route-table" {
+		025:   vpc_id = aws_default_vpc.default.id
+
+
+	[2]: ../../src/main.tf:18
+
+		017: 
+		018: resource "aws_subnet" "default-subnet" {
+		019:   vpc_id     = aws_default_vpc.default.id
+
+
+	[3]: ../../src/main.tf:49
+
+		048: 
+		049: resource "aws_instance" "t2-instance" {
+		050:   ami = data.aws_ami.ubuntu.id
+
+
+Name Is Not Snake Case, Severity: INFO, Results: 4
+Description: All names should follow snake case pattern.
+Platform: Terraform
+
+	[1]: ../../src/main.tf:18
+
+		017: 
+		018: resource "aws_subnet" "default-subnet" {
+		019:   vpc_id     = aws_default_vpc.default.id
+
+
+	[2]: ../../src/main.tf:28
+
+		027: 
+		028: resource "aws_route_table_association" "default-route-table-assoc" {
+		029:   subnet_id      = aws_subnet.default-subnet.id
+
+
+	[3]: ../../src/main.tf:49
+
+		048: 
+		049: resource "aws_instance" "t2-instance" {
+		050:   ami = data.aws_ami.ubuntu.id
+
+
+	[4]: ../../src/main.tf:24
+
+		023: 
+		024: resource "aws_route_table" "default-route-table" {
+		025:   vpc_id = aws_default_vpc.default.id
+
+
+EC2 Not EBS Optimized, Severity: INFO, Results: 1
+Description: It's considered a best practice for an EC2 instance to use an EBS optimized instance. This provides the best performance for your EBS volumes by minimizing contention between Amazon EBS I/O and other traffic from your instance
+Platform: Terraform
+
+	[1]: ../../src/main.tf:49
+
+		048: 
+		049: resource "aws_instance" "t2-instance" {
+		050:   ami = data.aws_ami.ubuntu.id
+
+
+EC2 Instance Monitoring Disabled, Severity: INFO, Results: 1
+Description: EC2 Instance should have detailed monitoring enabled. With detailed monitoring enabled data is available in 1-minute periods
+Platform: Terraform
+
+	[1]: ../../src/main.tf:49
+
+		048: 
+		049: resource "aws_instance" "t2-instance" {
+		050:   ami = data.aws_ami.ubuntu.id
+
+
+EC2 Instance Using Default VPC, Severity: LOW, Results: 1
+Description: EC2 Instances should not be configured under a default VPC network
+Platform: Terraform
+
+	[1]: ../../src/main.tf:52
+
+		051:   instance_type = "t2.micro"
+		052:   subnet_id = aws_subnet.default-subnet.id
+		053: }
+
+
+Instance With No VPC, Severity: MEDIUM, Results: 1
+Description: Instance should be configured in VPC (Virtual Private Cloud)
+Platform: Terraform
+
+	[1]: ../../src/main.tf:49
+
+		048: 
+		049: resource "aws_instance" "t2-instance" {
+		050:   ami = data.aws_ami.ubuntu.id
+
+
+IAM Access Analyzer Undefined, Severity: MEDIUM, Results: 1
+Description: IAM Access Analyzer should be defined to identify unintentional access
+Platform: Terraform
+
+	[1]: ../../src/main.tf:12
+
+		011: 
+		012: resource "aws_default_vpc" "default" {
+		013:   tags = {
+
+
+Default VPC Exists, Severity: MEDIUM, Results: 1
+Description: It isn't recommended to use resources in default VPC
+Platform: Terraform
+
+	[1]: ../../src/main.tf:12
+
+		011: 
+		012: resource "aws_default_vpc" "default" {
+		013:   tags = {
+
+
+EC2 Instance Has Public IP, Severity: HIGH, Results: 1
+Description: EC2 Instance should not have a public IP address.
+Platform: Terraform
+
+	[1]: ../../src/main.tf:49
+
+		048: 
+		049: resource "aws_instance" "t2-instance" {
+		050:   ami = data.aws_ami.ubuntu.id
+
+
+
+Results Summary:
+HIGH: 1
+MEDIUM: 3
+LOW: 1
+INFO: 9
+TOTAL: 14
+
+Scan duration: 25.821068172s

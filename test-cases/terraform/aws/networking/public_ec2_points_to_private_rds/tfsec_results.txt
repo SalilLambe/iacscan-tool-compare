@@ -1,0 +1,352 @@
+
+Result #1 CRITICAL Attribute name appears sensitive and has a value which is defined within the project. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 120
+───────┬────────────────────────────────────────────────────────────────────────
+  113  │ resource "aws_db_instance" "test" {
+  114  │   identifier = "tf-test-db"
+  115  │   allocated_storage = "5"
+  116  │   multi_az = "false"
+  117  │   engine = "mysql"
+  118  │   instance_class = "db.t2.small"
+  119  │   username = "admin"
+  120  │   password = "password123"
+  121  │   db_subnet_group_name = aws_db_subnet_group.db.name
+  122  │   vpc_security_group_ids = [ aws_security_group.db.id]
+  123  │   storage_type = "gp2"
+  124  │   skip_final_snapshot = true
+  125  │   publicly_accessible = false
+  126  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID general-secrets-no-plaintext-exposure
+      Impact Sensitive data can be leaked to unauthorised people or systems.
+  Resolution Remove plaintext secrets and encrypt them within a secrets manager instead.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/general/secrets/no-plaintext-exposure/
+  - https://www.terraform.io/docs/state/sensitive-data.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 CRITICAL Security group rule allows ingress from public internet. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 135
+───────┬────────────────────────────────────────────────────────────────────────
+  131  │   ingress {
+  132  │     from_port = 0
+  133  │     protocol = "tcp"
+  134  │     to_port = 65000
+  135  │     cidr_blocks = ["0.0.0.0/0"]
+  136  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-no-public-ingress-sgr
+      Impact Your port exposed to the internet
+  Resolution Set a more restrictive cidr range
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/no-public-ingress-sgr/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule#cidr_blocks
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 CRITICAL Security group rule allows egress to multiple public internet addresses. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 141
+───────┬────────────────────────────────────────────────────────────────────────
+  137  │   egress {
+  138  │     from_port = 0
+  139  │     protocol = "tcp"
+  140  │     to_port = 65000
+  141  │     cidr_blocks = ["0.0.0.0/0"]
+  142  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-no-public-egress-sgr
+      Impact Your port is egressing data to the internet
+  Resolution Set a more restrictive cidr range
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/no-public-egress-sgr/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 HIGH Instance does not have storage encryption enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 113-126
+───────┬────────────────────────────────────────────────────────────────────────
+  113  │ resource "aws_db_instance" "test" {
+  114  │   identifier = "tf-test-db"
+  115  │   allocated_storage = "5"
+  116  │   multi_az = "false"
+  117  │   engine = "mysql"
+  118  │   instance_class = "db.t2.small"
+  119  │   username = "admin"
+  120  │   password = "password123"
+  121  │   db_subnet_group_name = aws_db_subnet_group.db.name
+  122  │   vpc_security_group_ids = [ aws_security_group.db.id]
+  123  │   storage_type = "gp2"
+  124  │   skip_final_snapshot = true
+  125  │   publicly_accessible = false
+  126  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-encrypt-instance-storage-data
+      Impact Data can be read from RDS instances if compromised
+  Resolution Enable encryption for RDS instances
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/encrypt-instance-storage-data/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #5 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 146-152
+───────┬────────────────────────────────────────────────────────────────────────
+  146  │ resource "aws_instance" "public_ins" {
+  147  │   ami = "ami-0130bec6e5047f596"
+  148  │   instance_type = "t3.nano"
+  149  │   associate_public_ip_address = true
+  150  │   vpc_security_group_ids = [aws_security_group.publicly_accessible_sg.id]
+  151  │   subnet_id = aws_subnet.nondefault_1.id
+  152  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #6 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 146-152
+───────┬────────────────────────────────────────────────────────────────────────
+  146  │ resource "aws_instance" "public_ins" {
+  147  │   ami = "ami-0130bec6e5047f596"
+  148  │   instance_type = "t3.nano"
+  149  │   associate_public_ip_address = true
+  150  │   vpc_security_group_ids = [aws_security_group.publicly_accessible_sg.id]
+  151  │   subnet_id = aws_subnet.nondefault_1.id
+  152  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #7 MEDIUM Instance has very low backup retention period. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 113-126
+───────┬────────────────────────────────────────────────────────────────────────
+  113  │ resource "aws_db_instance" "test" {
+  114  │   identifier = "tf-test-db"
+  115  │   allocated_storage = "5"
+  116  │   multi_az = "false"
+  117  │   engine = "mysql"
+  118  │   instance_class = "db.t2.small"
+  119  │   username = "admin"
+  120  │   password = "password123"
+  121  │   db_subnet_group_name = aws_db_subnet_group.db.name
+  122  │   vpc_security_group_ids = [ aws_security_group.db.id]
+  123  │   storage_type = "gp2"
+  124  │   skip_final_snapshot = true
+  125  │   publicly_accessible = false
+  126  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-specify-backup-retention
+      Impact Potential loss of data and short opportunity for recovery
+  Resolution Explicitly set the retention period to greater than the default
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/specify-backup-retention/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster#backup_retention_period
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#backup_retention_period
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #8 LOW Security group explicitly uses the default description. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 103-111
+───────┬────────────────────────────────────────────────────────────────────────
+  103  │ resource "aws_security_group" "db" {
+  104  │   vpc_id = aws_vpc.nondefault.id
+  105  │   ingress {
+  106  │     from_port = 3306
+  107  │     protocol = "tcp"
+  108  │     to_port = 3306
+  109  │     cidr_blocks = [aws_subnet.nondefault_1.cidr_block]
+  110  │   }
+  111  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-add-description-to-security-group
+      Impact Descriptions provide context for the firewall rule reasons
+  Resolution Add descriptions for all security groups
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/add-description-to-security-group/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #9 LOW Security group rule does not have a description. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 105-110
+───────┬────────────────────────────────────────────────────────────────────────
+  105  │   ingress {
+  106  │     from_port = 3306
+  107  │     protocol = "tcp"
+  108  │     to_port = 3306
+  109  │     cidr_blocks = [aws_subnet.nondefault_1.cidr_block]
+  110  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-add-description-to-security-group-rule
+      Impact Descriptions provide context for the firewall rule reasons
+  Resolution Add descriptions for all security groups rules
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/add-description-to-security-group-rule/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #10 LOW Instance does not have performance insights enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 113-126
+───────┬────────────────────────────────────────────────────────────────────────
+  113  │ resource "aws_db_instance" "test" {
+  114  │   identifier = "tf-test-db"
+  115  │   allocated_storage = "5"
+  116  │   multi_az = "false"
+  117  │   engine = "mysql"
+  118  │   instance_class = "db.t2.small"
+  119  │   username = "admin"
+  120  │   password = "password123"
+  121  │   db_subnet_group_name = aws_db_subnet_group.db.name
+  122  │   vpc_security_group_ids = [ aws_security_group.db.id]
+  123  │   storage_type = "gp2"
+  124  │   skip_final_snapshot = true
+  125  │   publicly_accessible = false
+  126  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-enable-performance-insights
+      Impact Without adequate monitoring, performance related issues may go unreported and potentially lead to compromise.
+  Resolution Enable performance insights
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/enable-performance-insights/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster_instance#performance_insights_kms_key_id
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#performance_insights_kms_key_id
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #11 LOW Security group explicitly uses the default description. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 129-143
+───────┬────────────────────────────────────────────────────────────────────────
+  129  │ resource "aws_security_group" "publicly_accessible_sg" {
+  130  │   vpc_id = aws_vpc.nondefault.id
+  131  │   ingress {
+  132  │     from_port = 0
+  133  │     protocol = "tcp"
+  134  │     to_port = 65000
+  135  │     cidr_blocks = ["0.0.0.0/0"]
+  136  │   }
+  137  │   egress {
+  138  │     from_port = 0
+  139  │     protocol = "tcp"
+  140  │     to_port = 65000
+  141  │     cidr_blocks = ["0.0.0.0/0"]
+  142  │   }
+  143  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-add-description-to-security-group
+      Impact Descriptions provide context for the firewall rule reasons
+  Resolution Add descriptions for all security groups
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/add-description-to-security-group/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #12 LOW Security group rule does not have a description. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 131-136
+───────┬────────────────────────────────────────────────────────────────────────
+  131  │   ingress {
+  132  │     from_port = 0
+  133  │     protocol = "tcp"
+  134  │     to_port = 65000
+  135  │     cidr_blocks = ["0.0.0.0/0"]
+  136  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-add-description-to-security-group-rule
+      Impact Descriptions provide context for the firewall rule reasons
+  Resolution Add descriptions for all security groups rules
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/add-description-to-security-group-rule/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #13 LOW Security group rule does not have a description. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 137-142
+───────┬────────────────────────────────────────────────────────────────────────
+  137  │   egress {
+  138  │     from_port = 0
+  139  │     protocol = "tcp"
+  140  │     to_port = 65000
+  141  │     cidr_blocks = ["0.0.0.0/0"]
+  142  │   }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-vpc-add-description-to-security-group-rule
+      Impact Descriptions provide context for the firewall rule reasons
+  Resolution Add descriptions for all security groups rules
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/vpc/add-description-to-security-group-rule/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.284209ms
+  parsing              1.557311ms
+  adaptation           126.401µs
+  checks               2.052514ms
+  total                5.020435ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               15
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             3
+  high                 3
+  medium               1
+  low                  6
+
+  13 potential problem(s) detected.
+

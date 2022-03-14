@@ -1,0 +1,92 @@
+
+Result #1 CRITICAL Attribute name appears sensitive and has a value which is defined within the project. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 8
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_redshift_cluster" "test" {
+    6  │   cluster_identifier = "redshift-defaults-only"
+    7  │   node_type = "dc2.large"
+    8  │   master_password = "Test1234"
+    9  │   master_username = "test"
+   10  │   skip_final_snapshot = true
+   11  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID general-secrets-no-plaintext-exposure
+      Impact Sensitive data can be leaked to unauthorised people or systems.
+  Resolution Remove plaintext secrets and encrypt them within a secrets manager instead.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/general/secrets/no-plaintext-exposure/
+  - https://www.terraform.io/docs/state/sensitive-data.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Cluster does not have encryption enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-11
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_redshift_cluster" "test" {
+    6  │   cluster_identifier = "redshift-defaults-only"
+    7  │   node_type = "dc2.large"
+    8  │   master_password = "Test1234"
+    9  │   master_username = "test"
+   10  │   skip_final_snapshot = true
+   11  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-redshift-encryption-customer-key
+      Impact Data may be leaked if infrastructure is compromised
+  Resolution Enable encryption using CMK
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/redshift/encryption-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/redshift_cluster#encrypted
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 HIGH Cluster is deployed outside of a VPC. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-11
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_redshift_cluster" "test" {
+    6  │   cluster_identifier = "redshift-defaults-only"
+    7  │   node_type = "dc2.large"
+    8  │   master_password = "Test1234"
+    9  │   master_username = "test"
+   10  │   skip_final_snapshot = true
+   11  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-redshift-use-vpc
+      Impact Redshift cluster does not benefit from VPC security if it is deployed in EC2 classic mode
+  Resolution Deploy Redshift cluster into a non default VPC
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/redshift/use-vpc/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/redshift_cluster#cluster_subnet_group_name
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             995.007µs
+  parsing              249.103µs
+  adaptation           72.2µs
+  checks               1.43261ms
+  total                2.74892ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 2
+  medium               0
+  low                  0
+
+  3 potential problem(s) detected.
+

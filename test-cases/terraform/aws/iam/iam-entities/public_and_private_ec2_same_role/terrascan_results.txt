@@ -1,0 +1,80 @@
+
+
+Violation Details -
+    
+	Description    :	Ensure that your AWS application is not deployed within the default Virtual Private Cloud in order to follow security best practices
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	98
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that your AWS application is not deployed within the default Virtual Private Cloud in order to follow security best practices
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	106
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that detailed monitoring is enabled for EC2 instances.
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	98
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that detailed monitoring is enabled for EC2 instances.
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	106
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	EC2 instances should disable IMDS or require IMDSv2 as this can be related to the weaponization phase of kill chain
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	98
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	EC2 instances should disable IMDS or require IMDSv2 as this can be related to the weaponization phase of kill chain
+	File           :	main.tf
+	Module Name    :	root
+	Plan Root      :	./
+	Line           :	106
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure VPC flow logging is enabled in all VPCs
+	File           :	git::https:/github.com/terraform-aws-modules/terraform-aws-vpc?ref=v3.13.0/main.tf
+	Module Name    :	vpc
+	Plan Root      :	./
+	Line           :	20
+	Severity       :	LOW
+	
+	-----------------------------------------------------------------------
+	
+
+Scan Summary -
+
+	File/Folder         :	/iac
+	IaC Type            :	all
+	Scanned At          :	2022-03-14 11:15:44.359844081 +0000 UTC
+	Policies Validated  :	8
+	Violated Policies   :	7
+	Low                 :	1
+	Medium              :	4
+	High                :	2
+	
+

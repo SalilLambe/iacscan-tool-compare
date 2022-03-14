@@ -1,0 +1,20 @@
+terraform scan results:
+
+Passed checks: 0, Failed checks: 1, Skipped checks: 0
+
+Check: CKV_AWS_121: "Ensure AWS Config is enabled in all regions"
+	FAILED for resource: aws_config_configuration_aggregator.organization
+	File: /main.tf:1-9
+	Guide: https://docs.bridgecrew.io/docs/logging_5-enable-aws-config-regions
+
+		1 | resource "aws_config_configuration_aggregator" "organization" {
+		2 | 
+		3 |   name = "example"
+		4 | 
+		5 |   account_aggregation_source {
+		6 |     account_ids = ["123456789012"]
+		7 |     regions     = ["us-east-2", "us-east-1", "us-west-1", "us-west-2"]
+		8 |   }
+		9 | }
+
+
