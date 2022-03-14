@@ -1,5 +1,0 @@
-terraform scan results:
-
-Passed checks: 5, Failed checks: 0, Skipped checks: 0
-
-

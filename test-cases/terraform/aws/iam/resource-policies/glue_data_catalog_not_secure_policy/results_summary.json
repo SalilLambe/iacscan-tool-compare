@@ -1,8 +1,0 @@
-{
-  "checkov": "no",
-  "cloudrail": "yes",
-  "kics": "yes",
-  "snyk": "no",
-  "terrascan": "no",
-  "tfsec": "no"
-}
