@@ -38,11 +38,14 @@ jobs:
     - name: Run Py to update the ReadMe    
       run: python generate_readme_tables.py > README.md
       
-    - name: Update Findings
-      uses: andstor/copycat-action@v3
+    - name: Commit files
+      run: |
+            git config --local user.email "lambay.salil@gmail.com"
+            git config --local user.name "Salil"
+            git add .
+            git commit -m "Report Added" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
-        personal_token: ${{ secrets.REPO_TOKEN }}
-        src_path: /README.md
-        dst_path: /.
-        dst_owner: SalilLambe
-        dst_repo_name: iacscan-tool-compare
+          github_token: ${{ secrets.REPO_TOKEN }}
+          branch: ${{ github.ref }}
