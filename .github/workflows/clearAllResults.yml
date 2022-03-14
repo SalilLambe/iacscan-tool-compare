@@ -15,6 +15,12 @@ jobs:
     - name: Clearing all results
       run: |         
          find . -name "*_results.txt" -print -delete
+         find . -name "results_summary.json" -print -delete;
+         find . -name "*-error.log" -print -delete
+         find . -name "*-result.json" -print -delete 
+         find . -name "*_results.txt" -print -delete 
+         find . -name "*_report.html" -print -delete 
+         find . -name "*-logs.txt" -print -delete 
     - name: Commit files
       run: |
             git config --local user.email "lambay.salil@gmail.com"
