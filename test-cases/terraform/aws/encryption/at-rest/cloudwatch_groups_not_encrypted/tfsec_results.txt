@@ -1,0 +1,44 @@
+
+Result #1 LOW Log group is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-7
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_cloudwatch_log_group" "cloudrail-test" {
+    6  │   retention_in_days = 1
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-cloudwatch-log-group-customer-key
+      Impact Log data may be leaked if the logs are compromised. No auditing of who have viewed the logs.
+  Resolution Enable CMK encryption of CloudWatch Log Groups
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/cloudwatch/log-group-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group#kms_key_id
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             658.339µs
+  parsing              245.013µs
+  adaptation           92.105µs
+  checks               1.491386ms
+  total                2.486843ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 0
+  medium               0
+  low                  1
+
+  1 potential problem(s) detected.
+

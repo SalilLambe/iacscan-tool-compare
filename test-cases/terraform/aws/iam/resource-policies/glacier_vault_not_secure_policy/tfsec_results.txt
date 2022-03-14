@@ -1,0 +1,44 @@
+
+Result #1 HIGH Topic encryption does not use a customer managed key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-7
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_sns_topic" "aws_sns_topic" {
+    6  │   name = "glacier-sns-topic"
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-sns-enable-topic-encryption
+      Impact The SNS topic messages could be read if compromised
+  Resolution Turn on SNS Topic encryption
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/sns/enable-topic-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic#example-with-server-side-encryption-sse
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             501.93µs
+  parsing              340.32µs
+  adaptation           75.404µs
+  checks               1.620793ms
+  total                2.538447ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               3
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 1
+  medium               0
+  low                  0
+
+  1 potential problem(s) detected.
+

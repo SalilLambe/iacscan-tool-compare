@@ -1,0 +1,68 @@
+
+Result #1 HIGH Queue is not encrypted with a customer managed key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 12-17
+───────┬────────────────────────────────────────────────────────────────────────
+   12  │ resource "aws_sqs_queue" "cloudrail" {
+   13  │   name = "sqs_non_encrypted"
+   14  │   tags = {
+   15  │     Name = "Sqs Cloudrail Test"
+   16  │   }
+   17  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-sqs-enable-queue-encryption
+      Impact The SQS queue messages could be read if compromised
+  Resolution Turn on SQS Queue encryption
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/sqs/enable-queue-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue#server-side-encryption-sse
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Topic encryption does not use a customer managed key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-10
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_sns_topic" "cloudrail_1" {
+    6  │   name              = "sns_not_ecnrypted-1"
+    7  │   tags = {
+    8  │     Name = "Sns Topic Cloudrail Test"
+    9  │   }
+   10  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-sns-enable-topic-encryption
+      Impact The SNS topic messages could be read if compromised
+  Resolution Turn on SNS Topic encryption
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/sns/enable-topic-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic#example-with-server-side-encryption-sse
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.114364ms
+  parsing              429.525µs
+  adaptation           83.705µs
+  checks               2.359335ms
+  total                3.986929ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               3
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 2
+  medium               0
+  low                  0
+
+  2 potential problem(s) detected.
+

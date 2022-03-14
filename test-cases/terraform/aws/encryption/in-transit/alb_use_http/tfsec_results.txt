@@ -1,0 +1,196 @@
+
+Result #1 CRITICAL Listener for application load balancer does not use HTTPS. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 67-74
+───────┬────────────────────────────────────────────────────────────────────────
+   67  │ resource "aws_lb_listener" "listener" {
+   68  │   load_balancer_arn = aws_lb.test.arn
+   69  │   port = 80
+   70  │   default_action {
+   71  │     type             = "forward"
+   72  │     target_group_arn = aws_lb_target_group.test.arn
+   73  │   }
+   74  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-elb-http-not-used
+      Impact Your traffic is not protected
+  Resolution Switch to HTTPS to benefit from TLS security features
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/elb/http-not-used/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 108-113
+───────┬────────────────────────────────────────────────────────────────────────
+  108  │ resource "aws_instance" "inst3" {
+  109  │   vpc_security_group_ids = [aws_default_security_group.dsg.id]
+  110  │   subnet_id = aws_subnet.subnet1.id
+  111  │   ami = data.aws_ami.ubuntu.id
+  112  │   instance_type = "t3.micro"
+  113  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 108-113
+───────┬────────────────────────────────────────────────────────────────────────
+  108  │ resource "aws_instance" "inst3" {
+  109  │   vpc_security_group_ids = [aws_default_security_group.dsg.id]
+  110  │   subnet_id = aws_subnet.subnet1.id
+  111  │   ami = data.aws_ami.ubuntu.id
+  112  │   instance_type = "t3.micro"
+  113  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 HIGH Application load balancer is not set to drop invalid headers. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 49-54
+───────┬────────────────────────────────────────────────────────────────────────
+   49  │ resource "aws_lb" "test" {
+   50  │   name = "test123"
+   51  │   load_balancer_type = "application"
+   52  │   subnets = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+   53  │   internal = true
+   54  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-elb-drop-invalid-headers
+      Impact Invalid headers being passed through to the target of the load balance may exploit vulnerabilities
+  Resolution Set drop_invalid_header_fields to true
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/elb/drop-invalid-headers/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb#drop_invalid_header_fields
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #5 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 82-87
+───────┬────────────────────────────────────────────────────────────────────────
+   82  │ resource "aws_instance" "inst1" {
+   83  │   vpc_security_group_ids = [aws_default_security_group.dsg.id]
+   84  │   subnet_id = aws_subnet.subnet1.id
+   85  │   ami = data.aws_ami.ubuntu.id
+   86  │   instance_type = "t3.micro"
+   87  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #6 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 82-87
+───────┬────────────────────────────────────────────────────────────────────────
+   82  │ resource "aws_instance" "inst1" {
+   83  │   vpc_security_group_ids = [aws_default_security_group.dsg.id]
+   84  │   subnet_id = aws_subnet.subnet1.id
+   85  │   ami = data.aws_ami.ubuntu.id
+   86  │   instance_type = "t3.micro"
+   87  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #7 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 95-100
+───────┬────────────────────────────────────────────────────────────────────────
+   95  │ resource "aws_instance" "inst2" {
+   96  │   vpc_security_group_ids = [aws_default_security_group.dsg.id]
+   97  │   subnet_id = aws_subnet.subnet1.id
+   98  │   ami = data.aws_ami.ubuntu.id
+   99  │   instance_type = "t3.micro"
+  100  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #8 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 95-100
+───────┬────────────────────────────────────────────────────────────────────────
+   95  │ resource "aws_instance" "inst2" {
+   96  │   vpc_security_group_ids = [aws_default_security_group.dsg.id]
+   97  │   subnet_id = aws_subnet.subnet1.id
+   98  │   ami = data.aws_ami.ubuntu.id
+   99  │   instance_type = "t3.micro"
+  100  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             662.239µs
+  parsing              2.476142ms
+  adaptation           113.107µs
+  checks               5.241901ms
+  total                8.493389ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               16
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 7
+  medium               0
+  low                  0
+
+  8 potential problem(s) detected.
+

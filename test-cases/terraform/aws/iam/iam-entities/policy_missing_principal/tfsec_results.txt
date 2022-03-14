@@ -1,0 +1,74 @@
+
+Result #1 MEDIUM Key does not have rotation enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-37
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_kms_key" "secure_policy" {
+    6  │   description             = "KMS key + secure_policy"
+    7  │   deletion_window_in_days = 7
+    8  │ 
+    9  │   policy = <<EOF
+   10  │ {
+   11  │     "Version": "2008-10-17",
+   12  │     "Statement": [
+   13  │         {
+   14  │             "Sid": "Secure Policy",
+   15  │             "Effect": "Allow",
+   16  │             "Resource": "*",
+   17  │             "Action": [
+   18  │             "kms:Create*",
+   19  │             "kms:Describe*",
+   20  │             "kms:Enable*",
+   21  │             "kms:List*",
+   22  │             "kms:Put*",
+   23  │             "kms:Update*",
+   24  │             "kms:Revoke*",
+   25  │             "kms:Disable*",
+   26  │             "kms:Get*",
+   27  │             "kms:Delete*",
+   28  │             "kms:TagResource",
+   29  │             "kms:UntagResource",
+   30  │             "kms:ScheduleKeyDeletion",
+   31  │             "kms:CancelKeyDeletion"
+   32  │             ]
+   33  │         }
+   34  │     ]
+   35  │ }
+   36  │ EOF
+   37  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-kms-auto-rotate-keys
+      Impact Long life KMS keys increase the attack surface when compromised
+  Resolution Configure KMS key to auto rotate
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/kms/auto-rotate-keys/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key#enable_key_rotation
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             662.737µs
+  parsing              314.317µs
+  adaptation           78.804µs
+  checks               1.857206ms
+  total                2.913064ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 0
+  medium               1
+  low                  0
+
+  1 potential problem(s) detected.
+

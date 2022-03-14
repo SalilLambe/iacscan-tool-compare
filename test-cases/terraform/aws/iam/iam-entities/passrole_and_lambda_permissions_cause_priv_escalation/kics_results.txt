@@ -1,0 +1,107 @@
+
+                   .0MO.                                    
+                   OMMMx                                    
+                   ;NMX;                                    
+                    ...           ...              ....     
+WMMMd     cWMMM0.  KMMMO      ;xKWMMMMNOc.     ,xXMMMMMWXkc.
+WMMMd   .0MMMN:    KMMMO    :XMMMMMMMMMMMWl   xMMMMMWMMMMMMl
+WMMMd  lWMMMO.     KMMMO   xMMMMKc...'lXMk   ,MMMMx   .;dXx 
+WMMMd.0MMMX;       KMMMO  cMMMMd        '    'MMMMNl'       
+WMMMNWMMMMl        KMMMO  0MMMN               oMMMMMMMXkl.  
+WMMMMMMMMMMo       KMMMO  0MMMX                .ckKWMMMMMM0.
+WMMMMWokMMMMk      KMMMO  oMMMMc              .     .:OMMMM0
+WMMMK.  dMMMM0.    KMMMO   KMMMMx'    ,kNc   :WOc.    .NMMMX
+WMMMd    cWMMMX.   KMMMO    kMMMMMWXNMMMMMd .WMMMMWKO0NMMMMl
+WMMMd     ,NMMMN,  KMMMO     'xNMMMMMMMNx,   .l0WMMMMMMMWk, 
+xkkk:      ,kkkkx  okkkl        ;xKXKx;          ;dOKKkc    
+
+
+Scanning with Keeping Infrastructure as Code Secure v1.5.3
+
+
+
+Files scanned: 1
+Parsed files: 1
+Queries loaded: 859
+Queries failed to execute: 0
+
+------------------------------------
+
+Resource Not Using Tags, Severity: INFO, Results: 1
+Description: AWS services resource tags are an essential part of managing components
+Platform: Terraform
+
+	[1]: ../../src/main.tf:5
+
+		004: 
+		005: resource "aws_iam_role" "role" {
+		006:   name = "role"
+
+
+Name Is Not Snake Case, Severity: INFO, Results: 2
+Description: All names should follow snake case pattern.
+Platform: Terraform
+
+	[1]: ../../src/main.tf:25
+
+		024: 
+		025: resource "aws_iam_role_policy" "allow-policy-1" {
+		026:   name = "allow-policy-1"
+
+
+	[2]: ../../src/main.tf:45
+
+		044: 
+		045: resource "aws_iam_role_policy" "allow-policy-2" {
+		046:   name = "allow-policy-2"
+
+
+IAM Role Policy passRole Allows All, Severity: MEDIUM, Results: 1
+Description: Using the iam:passrole action with wildcards (*) in the resource can be overly permissive because it allows iam:passrole permissions on multiple resources
+Platform: Terraform
+
+	[1]: ../../src/main.tf:29
+
+		028: 
+		029:   policy = <<-EOF
+		030:   {
+
+
+IAM Policy Grants Full Permissions, Severity: MEDIUM, Results: 2
+Description: IAM policies allow all ('*') in a statement action
+Platform: Terraform
+
+	[1]: ../../src/main.tf:29
+
+		028: 
+		029:   policy = <<-EOF
+		030:   {
+
+
+	[2]: ../../src/main.tf:49
+
+		048: 
+		049:   policy = <<-EOF
+		050:   {
+
+
+IAM Access Analyzer Undefined, Severity: MEDIUM, Results: 1
+Description: IAM Access Analyzer should be defined to identify unintentional access
+Platform: Terraform
+
+	[1]: ../../src/main.tf:5
+
+		004: 
+		005: resource "aws_iam_role" "role" {
+		006:   name = "role"
+
+
+
+Results Summary:
+HIGH: 0
+MEDIUM: 4
+LOW: 0
+INFO: 3
+TOTAL: 7
+
+Scan duration: 29.698446734s

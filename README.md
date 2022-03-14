@@ -1,11 +1,3 @@
-![MIT License](https://img.shields.io/github/license/iacsecurity/tool-compare)
-![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
-
-# tool-compare
-In the world of infrastructure-as-code security there are several tools for users to choose from.
-The goal of this repository is to help compare the different options so that users can
-choose the tool that best fits their own needs.
-
 ## What tools are there?
 |     | [Checkov](https://github.com/bridgecrewio/checkov) | [Cloudrail](https://www.indeni.com/cloudrail) | [Kics](https://github.com/Checkmarx/kics) | [Snyk](https://snyk.io/) | [Terrascan](https://github.com/accurics/terrascan) | [Tfsec](https://github.com/tfsec/tfsec) |
 |----|----|----|----|----|----|----|
@@ -17,31 +9,16 @@ choose the tool that best fits their own needs.
 |Output Formats (for generic CI/CD support)|Text, JSON, JUnit, SARIF|Text, JSON, JUnit, SARIF, GitLab-SAST|Text, JSON, SARIF, HTML|Text, JSON, SARIF, HTML|Text, JSON, JUnit|Text, JSON, JUnit, SARIF|
 |Coverage for live environment|Not in OSS, use paid product|Yes, integrated into scans|No|No|Not in OSS, use paid product|Yes via differnet product|
 
-(there are others, anyone can add to this list, sorted A-Z)
-
-For a list of IaC languages supported and the coverage provided by each tool for different CSPs, scroll down to the
-test case tables.
-
-## How does this repo work?
-This repository has a set of test-cases and a main script, called [run_all_tools.sh](/run_all_tools.sh) 
-which runs the above-listed tools against each of the test-cases. This allows any potential user
-to see what the tool can do, and how it compares, before even installing it.
-
-## Test case catch rate
-The tables below list test cases included in this repository. For each case, it shows which tools
-are able to catch it specifically, and which don't. Most test cases originate from the cloud service provider's (CSP's)
-own recommendations and best practices, as well as the CIS benchmark for that specific CSP.
 
 ### Summary
-Last update: 2021-08-27
+Last update: 2022-03-14
 
 |     | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
 |----|----|----|----|----|----|----|
-|Tested Version|2.0.363|1.3.385|1.4.1|1.683.0|1.9.0|0.58.4|
+|Tested Version|2.0.941|1.3.836|1.5.3|1.864.0|1.13.2|1.8.0|
 |Terraform - AWS|69%|93%|94%|62%|73%|61%|
-|Terraform - Azure|47%|35%|23%|30%|8%|18%|
 |Terraform - Advanced Language Expressions|20%|100%|20%|0%|0%|0%|
-|Total Catch Rate|59%|72%|65%|48%|47%|43%|
+|Total Catch Rate|67%|93%|90%|59%|70%|58%|
 
 
 <details><summary>test-cases/terraform/aws/best-practices</summary>
@@ -205,114 +182,6 @@ Last update: 2021-08-27
 
 </details>
 
-<details><summary>test-cases/terraform/azure/best-practices</summary>
-
-| Test Case | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
-|----|----|----|----|----|----|----|
-|[defender_for_app_services_disabled](test-cases/terraform/azure/best-practices/defender_for_app_services_disabled)|:white_check_mark:|:x:|:x:|:x:|:x:|:x:|
-|[defender_for_container_registry_not_used](test-cases/terraform/azure/best-practices/defender_for_container_registry_not_used)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[defender_for_keyvault_disabled](test-cases/terraform/azure/best-practices/defender_for_keyvault_disabled)|:white_check_mark:|:x:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[defender_for_kubernetes_not_used](test-cases/terraform/azure/best-practices/defender_for_kubernetes_not_used)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[defender_for_servers_not_used](test-cases/terraform/azure/best-practices/defender_for_servers_not_used)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[defender_for_sql_servers_not_used](test-cases/terraform/azure/best-practices/defender_for_sql_servers_not_used)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[defender_for_storage_not_used](test-cases/terraform/azure/best-practices/defender_for_storage_not_used)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[email_notifications_for_high_severity_al..](test-cases/terraform/azure/best-practices/email_notifications_for_high_severity_alerts_not_used)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[func_app_not_using_http2](test-cases/terraform/azure/best-practices/func_app_not_using_http2)|:white_check_mark:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[func_app_not_using_latest_tls](test-cases/terraform/azure/best-practices/func_app_not_using_latest_tls)|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[functionapp_lin_java_isnot_latest](test-cases/terraform/azure/best-practices/functionapp_lin_java_isnot_latest)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[functionapp_python_isnot_latest](test-cases/terraform/azure/best-practices/functionapp_python_isnot_latest)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[functionapp_win_java_isnot_latest](test-cases/terraform/azure/best-practices/functionapp_win_java_isnot_latest)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[sql_vulnerability_assessment_not_enabled](test-cases/terraform/azure/best-practices/sql_vulnerability_assessment_not_enabled)|:white_check_mark:|:x:|:x:|:x:|:x:|:x:|
-|[sql_vulnerability_email_not_set](test-cases/terraform/azure/best-practices/sql_vulnerability_email_not_set)|:white_check_mark:|:x:|:x:|:white_check_mark:|:x:|:x:|
-|[vm_unmanaged_disks](test-cases/terraform/azure/best-practices/vm_unmanaged_disks)|:white_check_mark:|:x:|:x:|:x:|:x:|:x:|
-|[vmss_unmanaged_disks](test-cases/terraform/azure/best-practices/vmss_unmanaged_disks)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[vpn_gw_using_basic_sku](test-cases/terraform/azure/best-practices/vpn_gw_using_basic_sku)|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[webapp_http2_not_enabled](test-cases/terraform/azure/best-practices/webapp_http2_not_enabled)|:white_check_mark:|:x:|:x:|:white_check_mark:|:x:|:x:|
-|[webapp_lin_java_isnot_latest](test-cases/terraform/azure/best-practices/webapp_lin_java_isnot_latest)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[webapp_php_isnot_latest](test-cases/terraform/azure/best-practices/webapp_php_isnot_latest)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[webapp_win_java_isnot_latest](test-cases/terraform/azure/best-practices/webapp_win_java_isnot_latest)|:x:|:x:|:x:|:x:|:x:|:x:|
-|Sub-category Catch Rate|59%|41%|32%|41%|0%|32%|
-
-</details>
-
-<details><summary>test-cases/terraform/azure/encryption/at-rest</summary>
-
-| Test Case | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
-|----|----|----|----|----|----|----|
-|[activitylog_storage_account_encryption_n..](test-cases/terraform/azure/encryption/at-rest/activitylog_storage_account_encryption_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[sql_encryption_customer_key_not_set](test-cases/terraform/azure/encryption/at-rest/sql_encryption_customer_key_not_set)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[storacc_encryption_not_enabled](test-cases/terraform/azure/encryption/at-rest/storacc_encryption_not_enabled)|:white_check_mark:|:x:|:x:|:x:|:x:|:x:|
-|Sub-category Catch Rate|33%|0%|0%|0%|0%|0%|
-
-</details>
-
-<details><summary>test-cases/terraform/azure/encryption/in-transit</summary>
-
-| Test Case | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
-|----|----|----|----|----|----|----|
-|[app_service_ftps_unused](test-cases/terraform/azure/encryption/in-transit/app_service_ftps_unused)|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[app_service_use_most_recent_supported_tl..](test-cases/terraform/azure/encryption/in-transit/app_service_use_most_recent_supported_tls)|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|:x:|:x:|
-|[func_app_ftps_not_required](test-cases/terraform/azure/encryption/in-transit/func_app_ftps_not_required)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[mysql_not_forcing_ssl](test-cases/terraform/azure/encryption/in-transit/mysql_not_forcing_ssl)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|
-|[postgresql_not_forcing_ssl](test-cases/terraform/azure/encryption/in-transit/postgresql_not_forcing_ssl)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|
-|Sub-category Catch Rate|60%|80%|40%|60%|40%|40%|
-
-</details>
-
-<details><summary>test-cases/terraform/azure/iam</summary>
-
-| Test Case | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
-|----|----|----|----|----|----|----|
-|[app_service_authentication_missing](test-cases/terraform/azure/iam/app_service_authentication_missing)|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|:x:|:x:|
-|[custom-role-owner-exists](test-cases/terraform/azure/iam/custom-role-owner-exists)|:white_check_mark:|:x:|:white_check_mark:|:x:|:x:|:x:|
-|[func_app_authentication](test-cases/terraform/azure/iam/func_app_authentication)|:white_check_mark:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[func_app_client_cert_optional](test-cases/terraform/azure/iam/func_app_client_cert_optional)|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[functionapp_not_use_managedidentity](test-cases/terraform/azure/iam/functionapp_not_use_managedidentity)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[sql-server-ad-admin-not-set](test-cases/terraform/azure/iam/sql-server-ad-admin-not-set)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[storage_account_public_access_disabled](test-cases/terraform/azure/iam/storage_account_public_access_disabled)|:white_check_mark:|:x:|:x:|:x:|:x:|:x:|
-|[webapp_client_cert_not_enabled](test-cases/terraform/azure/iam/webapp_client_cert_not_enabled)|:white_check_mark:|:x:|:x:|:white_check_mark:|:x:|:x:|
-|[webapp_not_use_managedidentity](test-cases/terraform/azure/iam/webapp_not_use_managedidentity)|:white_check_mark:|:x:|:x:|:x:|:x:|:x:|
-|Sub-category Catch Rate|67%|33%|11%|22%|0%|0%|
-
-</details>
-
-<details><summary>test-cases/terraform/azure/logging</summary>
-
-| Test Case | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
-|----|----|----|----|----|----|----|
-|[auto_prov_log_analytics_agent_disabled](test-cases/terraform/azure/logging/auto_prov_log_analytics_agent_disabled)|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[batch_diagnostic_disabled](test-cases/terraform/azure/logging/batch_diagnostic_disabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[dl_analytics_diagnostic_not_enabled](test-cases/terraform/azure/logging/dl_analytics_diagnostic_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[dl_store_diagnostic_not_enabled](test-cases/terraform/azure/logging/dl_store_diagnostic_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[event_hub_diagnostic_not_enabled](test-cases/terraform/azure/logging/event_hub_diagnostic_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[iot_hub_diagnostic_not_enabled](test-cases/terraform/azure/logging/iot_hub_diagnostic_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[logic_app_wf_diagnostic_not_enabled](test-cases/terraform/azure/logging/logic_app_wf_diagnostic_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[postgresql_log_connections_not_enabled](test-cases/terraform/azure/logging/postgresql_log_connections_not_enabled)|:white_check_mark:|:x:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|
-|[postgresql_log_disconnections_not_enable..](test-cases/terraform/azure/logging/postgresql_log_disconnections_not_enabled)|:x:|:x:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|
-|[postgresql_logcheckpoints_not_enabled](test-cases/terraform/azure/logging/postgresql_logcheckpoints_not_enabled)|:white_check_mark:|:x:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|
-|[search_diagnostic_not_enabled](test-cases/terraform/azure/logging/search_diagnostic_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[servicebus_namespace_not_enabled](test-cases/terraform/azure/logging/servicebus_namespace_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[sql-server-audit-retention-30](test-cases/terraform/azure/logging/sql-server-audit-retention-30)|:white_check_mark:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[sql_server_audit_not_used](test-cases/terraform/azure/logging/sql_server_audit_not_used)|:white_check_mark:|:white_check_mark:|:white_check_mark:|:white_check_mark:|:x:|:white_check_mark:|
-|[stream_analytics_diagnostic_not_enabled](test-cases/terraform/azure/logging/stream_analytics_diagnostic_not_enabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[vmss_win_diagnostic_log_disabled](test-cases/terraform/azure/logging/vmss_win_diagnostic_log_disabled)|:x:|:x:|:x:|:x:|:x:|:x:|
-|Sub-category Catch Rate|25%|19%|25%|25%|19%|6%|
-
-</details>
-
-<details><summary>test-cases/terraform/azure/networking</summary>
-
-| Test Case | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
-|----|----|----|----|----|----|----|
-|[no_unused_nsg](test-cases/terraform/azure/networking/no_unused_nsg)|:x:|:white_check_mark:|:x:|:x:|:x:|:x:|
-|[public_access_sql_db](test-cases/terraform/azure/networking/public_access_sql_db)|:white_check_mark:|:white_check_mark:|:x:|:x:|:x:|:white_check_mark:|
-|[vm_public_rdp_lb_opened](test-cases/terraform/azure/networking/vm_public_rdp_lb_opened)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[vm_public_rdp_nat_opened](test-cases/terraform/azure/networking/vm_public_rdp_nat_opened)|:x:|:x:|:x:|:x:|:x:|:x:|
-|[vmss_public_rdp_lb_opened](test-cases/terraform/azure/networking/vmss_public_rdp_lb_opened)|:x:|:x:|:x:|:x:|:x:|:x:|
-|Sub-category Catch Rate|20%|40%|0%|0%|0%|20%|
-
-</details>
-
 <details><summary>test-cases/terraform/hcl_language_complexity</summary>
 
 | Test Case | Checkov | Indeni Cloudrail | Kics | Snyk | Terrascan | Tfsec |
@@ -327,14 +196,4 @@ Last update: 2021-08-27
 </details>
 
 
-## Contributing
-Anyone can contribute to this repository. The main areas of contribution are:
-
-* Adding an additional tool - simply add the tool to this readme and the `run_all_tools.sh` script. Then,
-execute that script and add all of its results as part of your PR. That's it, you're good to go.
-
-* Adding test-cases - you can add the test case in the correct spot in the tree under [test-cases](/test-cases)
-and run the `run_all_tools.sh` script against it. Make sure to include all of the tools' results as part of your PR.
-
-NOTE: This repository has been initiated by @yi2020, CEO & Founder of Indeni, the company behind Indeni Cloudrail. While this was initiated by an employee of a vendor in the community, the intention is for this repository to be neutral and truly serve as a non-biased comparison tool of products offered. Contributions that help users make that choice, and are unbiased in nature, are very welcome. The aspiration is that over time all vendors will become equal contributors in this repository.
 

@@ -1,0 +1,234 @@
+
+Result #1 HIGH EBS volume is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 15-22
+───────┬────────────────────────────────────────────────────────────────────────
+   15  │ resource "aws_ebs_volume" "example" {
+   16  │   availability_zone = data.aws_availability_zones.available.names[0]
+   17  │   size              = 40
+   18  │ 
+   19  │   tags = {
+   20  │     Name = "HelloWorld"
+   21  │   }
+   22  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ebs-enable-volume-encryption
+      Impact Unencrypted sensitive data is vulnerable to compromise.
+  Resolution Enable encryption of EBS volumes
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ebs/enable-volume-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ebs_volume#encrypted
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 45-48
+───────┬────────────────────────────────────────────────────────────────────────
+   45  │ resource "aws_instance" "example_with_new_ami" {
+   46  │   ami = aws_ami.example.id
+   47  │   instance_type = "t3.nano"
+   48  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 45-48
+───────┬────────────────────────────────────────────────────────────────────────
+   45  │ resource "aws_instance" "example_with_new_ami" {
+   46  │   ami = aws_ami.example.id
+   47  │   instance_type = "t3.nano"
+   48  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 80-84
+───────┬────────────────────────────────────────────────────────────────────────
+   80  │ resource "aws_instance" "example_with_copied_ami" {
+   81  │   ami = aws_ami_copy.example.id
+   82  │   instance_type = "t3.nano"
+   83  │   
+   84  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #5 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 80-84
+───────┬────────────────────────────────────────────────────────────────────────
+   80  │ resource "aws_instance" "example_with_copied_ami" {
+   81  │   ami = aws_ami_copy.example.id
+   82  │   instance_type = "t3.nano"
+   83  │   
+   84  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #6 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 93-96
+───────┬────────────────────────────────────────────────────────────────────────
+   93  │ resource "aws_instance" "example_with_ami_from_instance" {
+   94  │   ami = aws_ami_from_instance.example.id
+   95  │   instance_type = "t3.nano"
+   96  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #7 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 93-96
+───────┬────────────────────────────────────────────────────────────────────────
+   93  │ resource "aws_instance" "example_with_ami_from_instance" {
+   94  │   ami = aws_ami_from_instance.example.id
+   95  │   instance_type = "t3.nano"
+   96  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #8 HIGH Instance does not require IMDS access to require a token 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 98-105
+───────┬────────────────────────────────────────────────────────────────────────
+   98  │ resource "aws_instance" "public-ubuntu-from-data" {
+   99  │   ami           = data.aws_ami.ubuntu.id
+  100  │   instance_type = "t2.micro"
+  101  │   
+  102  │   tags = {
+  103  │     Name = "public-ubuntu-from-data"
+  104  │   }
+  105  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enforce-http-token-imds
+      Impact Instance metadata service can be interacted with freely
+  Resolution Enable HTTP token requirement for IMDS
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enforce-http-token-imds/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#metadata-options
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #9 HIGH Root block device is not encrypted. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 98-105
+───────┬────────────────────────────────────────────────────────────────────────
+   98  │ resource "aws_instance" "public-ubuntu-from-data" {
+   99  │   ami           = data.aws_ami.ubuntu.id
+  100  │   instance_type = "t2.micro"
+  101  │   
+  102  │   tags = {
+  103  │     Name = "public-ubuntu-from-data"
+  104  │   }
+  105  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ec2-enable-at-rest-encryption
+      Impact The block device could be compromised and read from
+  Resolution Turn on encryption for all block devices
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ec2/enable-at-rest-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#ebs-ephemeral-and-root-block-devices
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #10 LOW EBS volume does not use a customer-managed KMS key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 15-22
+───────┬────────────────────────────────────────────────────────────────────────
+   15  │ resource "aws_ebs_volume" "example" {
+   16  │   availability_zone = data.aws_availability_zones.available.names[0]
+   17  │   size              = 40
+   18  │ 
+   19  │   tags = {
+   20  │     Name = "HelloWorld"
+   21  │   }
+   22  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ebs-encryption-customer-key
+      Impact Using AWS managed keys does not allow for fine grained control
+  Resolution Enable encryption using customer managed keys
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ebs/encryption-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ebs_volume#kms_key_id
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.972414ms
+  parsing              1.672795ms
+  adaptation           83.304µs
+  checks               3.183582ms
+  total                6.912095ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               13
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 9
+  medium               0
+  low                  1
+
+  10 potential problem(s) detected.
+

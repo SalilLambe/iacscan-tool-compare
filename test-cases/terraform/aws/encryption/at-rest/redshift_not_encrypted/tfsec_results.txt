@@ -1,0 +1,95 @@
+
+Result #1 CRITICAL Attribute name appears sensitive and has a value which is defined within the project. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 9
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_redshift_cluster" "default" {
+    6  │   cluster_identifier = "tf-redshift-cluster"
+    7  │   database_name      = "mydb"
+    8  │   master_username    = "foo"
+    9  │   master_password    = "Mustbe8characters"
+   10  │   node_type          = "dc1.large"
+   11  │   cluster_type       = "single-node"
+   12  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID general-secrets-no-plaintext-exposure
+      Impact Sensitive data can be leaked to unauthorised people or systems.
+  Resolution Remove plaintext secrets and encrypt them within a secrets manager instead.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/general/secrets/no-plaintext-exposure/
+  - https://www.terraform.io/docs/state/sensitive-data.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Cluster does not have encryption enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-12
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_redshift_cluster" "default" {
+    6  │   cluster_identifier = "tf-redshift-cluster"
+    7  │   database_name      = "mydb"
+    8  │   master_username    = "foo"
+    9  │   master_password    = "Mustbe8characters"
+   10  │   node_type          = "dc1.large"
+   11  │   cluster_type       = "single-node"
+   12  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-redshift-encryption-customer-key
+      Impact Data may be leaked if infrastructure is compromised
+  Resolution Enable encryption using CMK
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/redshift/encryption-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/redshift_cluster#encrypted
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 HIGH Cluster is deployed outside of a VPC. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 5-12
+───────┬────────────────────────────────────────────────────────────────────────
+    5  │ resource "aws_redshift_cluster" "default" {
+    6  │   cluster_identifier = "tf-redshift-cluster"
+    7  │   database_name      = "mydb"
+    8  │   master_username    = "foo"
+    9  │   master_password    = "Mustbe8characters"
+   10  │   node_type          = "dc1.large"
+   11  │   cluster_type       = "single-node"
+   12  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-redshift-use-vpc
+      Impact Redshift cluster does not benefit from VPC security if it is deployed in EC2 classic mode
+  Resolution Deploy Redshift cluster into a non default VPC
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/redshift/use-vpc/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/redshift_cluster#cluster_subnet_group_name
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             451.527µs
+  parsing              310.717µs
+  adaptation           77.305µs
+  checks               1.554689ms
+  total                2.394238ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 2
+  medium               0
+  low                  0
+
+  3 potential problem(s) detected.
+

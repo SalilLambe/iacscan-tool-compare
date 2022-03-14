@@ -1,0 +1,49 @@
+
+Result #1 LOW Repository is not encrypted using KMS. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-8
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_ecr_repository" "foo" {
+    2  │   name                 = "bar"
+    3  │   image_tag_mutability = "IMMUTABLE"
+    4  │ 
+    5  │   image_scanning_configuration {
+    6  │     scan_on_push = true
+    7  │   }
+    8  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-ecr-repository-customer-key
+      Impact Using AWS managed keys does not allow for fine grained control
+  Resolution Use customer managed keys
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/ecr/repository-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository#encryption_configuration
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             618.836µs
+  parsing              219.913µs
+  adaptation           77.504µs
+  checks               1.432182ms
+  total                2.348435ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               1
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 0
+  medium               0
+  low                  1
+
+  1 potential problem(s) detected.
+

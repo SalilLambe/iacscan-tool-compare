@@ -1,0 +1,72 @@
+
+Result #1 MEDIUM Cluster snapshot retention is not enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-7
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_elasticache_cluster" "default" {
+    2  │   cluster_id           = "cluster"
+    3  │   engine               = "redis"
+    4  │   node_type            = "cache.m5.large"
+    5  │   num_cache_nodes      = 1
+    6  │   parameter_group_name = "default.redis6.x"
+    7  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-elasticache-enable-backup-retention
+      Impact Without backups of the redis cluster recovery is made difficult
+  Resolution Configure snapshot retention for redis cluster
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/elasticache/enable-backup-retention/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticache_cluster#snapshot_retention_limit
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 MEDIUM Cluster snapshot retention is not enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 16
+───────┬────────────────────────────────────────────────────────────────────────
+    9  │ resource "aws_elasticache_cluster" "disabled" {
+   10  │   cluster_id           = "cluster"
+   11  │   engine               = "redis"
+   12  │   node_type            = "cache.m5.large"
+   13  │   num_cache_nodes      = 1
+   14  │   parameter_group_name = "default.redis6.x"
+   15  │ 
+   16  │   snapshot_retention_limit = 0        0
+   17  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-elasticache-enable-backup-retention
+      Impact Without backups of the redis cluster recovery is made difficult
+  Resolution Configure snapshot retention for redis cluster
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/elasticache/enable-backup-retention/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticache_cluster#snapshot_retention_limit
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.39048ms
+  parsing              654.538µs
+  adaptation           88.905µs
+  checks               1.363978ms
+  total                3.497901ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               2
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             0
+  high                 0
+  medium               2
+  low                  0
+
+  2 potential problem(s) detected.
+

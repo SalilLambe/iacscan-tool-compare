@@ -1,0 +1,102 @@
+
+Result #1 CRITICAL Attribute name appears sensitive and has a value which is defined within the project. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 8
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_rds_cluster" "default" {
+    2  │   cluster_identifier      = "aurora-cluster-demo"
+    3  │   engine                  = "aurora-mysql"
+    4  │   engine_version          = "5.7.mysql_aurora.2.03.2"
+    5  │   availability_zones      = ["us-west-2a", "us-west-2b", "us-west-2c"]
+    6  │   database_name           = "mydb"
+    7  │   master_username         = "foo"
+    8  │   master_password         = "bar"
+    9  │   preferred_backup_window = "07:00-09:00"
+   10  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID general-secrets-no-plaintext-exposure
+      Impact Sensitive data can be leaked to unauthorised people or systems.
+  Resolution Remove plaintext secrets and encrypt them within a secrets manager instead.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/general/secrets/no-plaintext-exposure/
+  - https://www.terraform.io/docs/state/sensitive-data.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Cluster does not have storage encryption enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-10
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_rds_cluster" "default" {
+    2  │   cluster_identifier      = "aurora-cluster-demo"
+    3  │   engine                  = "aurora-mysql"
+    4  │   engine_version          = "5.7.mysql_aurora.2.03.2"
+    5  │   availability_zones      = ["us-west-2a", "us-west-2b", "us-west-2c"]
+    6  │   database_name           = "mydb"
+    7  │   master_username         = "foo"
+    8  │   master_password         = "bar"
+    9  │   preferred_backup_window = "07:00-09:00"
+   10  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-encrypt-cluster-storage-data
+      Impact Data can be read from the RDS cluster if it is compromised
+  Resolution Enable encryption for RDS clusters
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/encrypt-cluster-storage-data/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 MEDIUM Cluster has very low backup retention period. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-10
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_rds_cluster" "default" {
+    2  │   cluster_identifier      = "aurora-cluster-demo"
+    3  │   engine                  = "aurora-mysql"
+    4  │   engine_version          = "5.7.mysql_aurora.2.03.2"
+    5  │   availability_zones      = ["us-west-2a", "us-west-2b", "us-west-2c"]
+    6  │   database_name           = "mydb"
+    7  │   master_username         = "foo"
+    8  │   master_password         = "bar"
+    9  │   preferred_backup_window = "07:00-09:00"
+   10  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-rds-specify-backup-retention
+      Impact Potential loss of data and short opportunity for recovery
+  Resolution Explicitly set the retention period to greater than the default
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/rds/specify-backup-retention/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster#backup_retention_period
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance#backup_retention_period
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             1.140964ms
+  parsing              336.719µs
+  adaptation           77.804µs
+  checks               1.699898ms
+  total                3.255385ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               1
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 1
+  medium               1
+  low                  0
+
+  3 potential problem(s) detected.
+

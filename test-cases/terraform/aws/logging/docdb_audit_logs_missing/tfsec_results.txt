@@ -1,0 +1,122 @@
+
+Result #1 CRITICAL Attribute name appears sensitive and has a value which is defined within the project. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Line 5
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_docdb_cluster" "docdb" {
+    2  │   cluster_identifier      = "my-docdb-cluster"
+    3  │   engine                  = "docdb"
+    4  │   master_username         = "foo"
+    5  │   master_password         = "mustbeeightchars"
+    6  │   backup_retention_period = 5
+    7  │   preferred_backup_window = "07:00-09:00"
+    8  │   skip_final_snapshot     = true
+    9  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID general-secrets-no-plaintext-exposure
+      Impact Sensitive data can be leaked to unauthorised people or systems.
+  Resolution Remove plaintext secrets and encrypt them within a secrets manager instead.
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/general/secrets/no-plaintext-exposure/
+  - https://www.terraform.io/docs/state/sensitive-data.html
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #2 HIGH Cluster storage does not have encryption enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-9
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_docdb_cluster" "docdb" {
+    2  │   cluster_identifier      = "my-docdb-cluster"
+    3  │   engine                  = "docdb"
+    4  │   master_username         = "foo"
+    5  │   master_password         = "mustbeeightchars"
+    6  │   backup_retention_period = 5
+    7  │   preferred_backup_window = "07:00-09:00"
+    8  │   skip_final_snapshot     = true
+    9  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-documentdb-enable-storage-encryption
+      Impact Unencrypted sensitive data is vulnerable to compromise.
+  Resolution Enable storage encryption
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/documentdb/enable-storage-encryption/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#storage_encrypted
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #3 MEDIUM Neither CloudWatch audit nor profiler log exports are enabled. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-9
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_docdb_cluster" "docdb" {
+    2  │   cluster_identifier      = "my-docdb-cluster"
+    3  │   engine                  = "docdb"
+    4  │   master_username         = "foo"
+    5  │   master_password         = "mustbeeightchars"
+    6  │   backup_retention_period = 5
+    7  │   preferred_backup_window = "07:00-09:00"
+    8  │   skip_final_snapshot     = true
+    9  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-documentdb-enable-log-export
+      Impact Limited visibility of audit trail for changes to the DocumentDB
+  Resolution Enable export logs
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/documentdb/enable-log-export/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#enabled_cloudwatch_logs_exports
+────────────────────────────────────────────────────────────────────────────────
+
+
+Result #4 LOW Cluster encryption does not use a customer-managed KMS key. 
+────────────────────────────────────────────────────────────────────────────────
+ main.tf Lines 1-9
+───────┬────────────────────────────────────────────────────────────────────────
+    1  │ resource "aws_docdb_cluster" "docdb" {
+    2  │   cluster_identifier      = "my-docdb-cluster"
+    3  │   engine                  = "docdb"
+    4  │   master_username         = "foo"
+    5  │   master_password         = "mustbeeightchars"
+    6  │   backup_retention_period = 5
+    7  │   preferred_backup_window = "07:00-09:00"
+    8  │   skip_final_snapshot     = true
+    9  │ }
+───────┴────────────────────────────────────────────────────────────────────────
+          ID aws-documentdb-encryption-customer-key
+      Impact Using AWS managed keys does not allow for fine grained control
+  Resolution Enable encryption using customer managed keys
+
+  More Information
+  - https://aquasecurity.github.io/tfsec/v1.8.0/checks/aws/documentdb/encryption-customer-key/
+  - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster#kms_key_id
+────────────────────────────────────────────────────────────────────────────────
+
+
+  timings
+  ──────────────────────────────────────────
+  disk i/o             450.725µs
+  parsing              273.217µs
+  adaptation           75.904µs
+  checks               1.641494ms
+  total                2.44134ms
+
+  counts
+  ──────────────────────────────────────────
+  blocks               1
+  modules              1
+  files                1
+
+  results
+  ──────────────────────────────────────────
+  ignored              0
+  excluded             0
+  critical             1
+  high                 1
+  medium               1
+  low                  1
+
+  4 potential problem(s) detected.
+
