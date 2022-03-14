@@ -8,11 +8,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  run_tests:
+  ClearingAllResultFiles:
     runs-on: ubuntu-20.04
     steps:
-    - name: Run script file
-      run: |
-         @echo "Clearing all results"
+    - name: Clearing all results
+      run: |         
          find . -name "*_results.txt" -print -delete
+    - name: Commit files
+      run: |
+            git config --local user.email "lambay.salil@gmail.com"
+            git config --local user.name "Salil"
+            git add .
+            git commit -m "Report Added" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+          github_token: ${{ secrets.REPO_TOKEN }}
+          branch: ${{ github.ref }}
        
